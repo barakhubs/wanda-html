@@ -1,0 +1,185 @@
+/* ===================================
+   SCROLL REVEAL
+   =================================== */
+.reveal,
+.reveal-left,
+.reveal-right {
+  opacity: 0;
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s ease;
+}
+.reveal {
+  transform: translateY(28px);
+}
+.reveal-left {
+  transform: translateX(-28px);
+}
+.reveal-right {
+  transform: translateX(28px);
+}
+
+.reveal.visible,
+.reveal-left.visible,
+.reveal-right.visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* Stagger delays */
+.delay-1 {
+  transition-delay: 0.1s;
+}
+.delay-2 {
+  transition-delay: 0.2s;
+}
+.delay-3 {
+  transition-delay: 0.3s;
+}
+.delay-4 {
+  transition-delay: 0.4s;
+}
+.delay-5 {
+  transition-delay: 0.5s;
+}
+.delay-6 {
+  transition-delay: 0.6s;
+}
+
+/* ===================================
+   HERO ENTRANCE
+   =================================== */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-badge {
+  animation: heroFadeUp 0.7s ease 0.2s both;
+}
+.hero-text h1 {
+  animation: heroFadeUp 0.7s ease 0.4s both;
+}
+.hero-text > p {
+  animation: heroFadeUp 0.7s ease 0.58s both;
+}
+.hero-actions {
+  animation: heroFadeUp 0.7s ease 0.74s both;
+}
+.hero-graphic {
+  animation: heroFadeUp 0.8s ease 0.5s both;
+}
+
+/* ===================================
+   PAGE FADE-IN
+   =================================== */
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+body {
+  animation: pageFadeIn 0.4s ease both;
+}
+
+/* ===================================
+   CARD HOVER SHIMMER
+   =================================== */
+.shimmer-card {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 55%;
+  height: 200%;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 80%
+  );
+  transform: skewX(-18deg);
+  opacity: 0;
+}
+.shimmer-card:hover::after {
+  animation: shimmerSlide 0.65s ease forwards;
+  opacity: 1;
+}
+@keyframes shimmerSlide {
+  from {
+    left: -75%;
+  }
+  to {
+    left: 125%;
+  }
+}
+
+/* ===================================
+   BUTTON PULSE (hero CTA)
+   =================================== */
+@keyframes btnPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(28, 184, 214, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(28, 184, 214, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(28, 184, 214, 0);
+  }
+}
+.btn-pulse {
+  animation: btnPulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ===================================
+   FLOATING BUBBLES (about page)
+   =================================== */
+@keyframes floatUp {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.about-bubble-1 {
+  animation: floatUp 4s ease-in-out 0s infinite;
+}
+.about-bubble-2 {
+  animation: floatUp 4s ease-in-out 1.3s infinite;
+}
+.about-bubble-3 {
+  animation: floatUp 4s ease-in-out 2.6s infinite;
+}
+
+/* ===================================
+   STAT NUMBER COUNT-IN
+   =================================== */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.stat-number.animated {
+  animation: countUp 0.5s ease both;
+}

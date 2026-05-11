@@ -1,0 +1,42 @@
+Options -Indexes
+
+# Protect sensitive directories
+<FilesMatch "\.(sql|md|gitignore)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # -------------------------------------------------------
+  # CHANGE THIS if the site is not in /wanda-html/
+  # e.g. use  RewriteBase /  if it is the web root
+  # -------------------------------------------------------
+  RewriteBase /wanda-html/
+
+  # Skip real files and directories
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Clean URL: /blog/some-slug  → blog-post.php?slug=some-slug
+  RewriteRule ^blog/([a-z0-9\-]+)/?$  blog-post.php?slug=$1  [L,QSA]
+
+  # Clean URL: /blog  → blog.php
+  RewriteRule ^blog/?$   blog.php   [L,QSA]
+
+  # Clean URL: /portfolio  → portfolio.php
+  RewriteRule ^portfolio/?$  portfolio.php  [L,QSA]
+
+  # Clean URL: /team  → team.php
+  RewriteRule ^team/?$   team.php   [L,QSA]
+
+  # Clean URL: /about  → about.php
+  RewriteRule ^about/?$   about.php   [L,QSA]
+
+  # Clean URL: /services  → services.php
+  RewriteRule ^services/?$   services.php   [L,QSA]
+
+  # Clean URL: /contact  → contact.php
+  RewriteRule ^contact/?$   contact.php   [L,QSA]
+</IfModule>

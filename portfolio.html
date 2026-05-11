@@ -1,0 +1,494 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Wanda Communications Uganda portfolio â€” photography, videography, advocacy campaigns, and strategic communication projects."
+    />
+    <title>Portfolio | Wanda Communications Uganda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+  </head>
+  <body>
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="container">
+        <div class="topbar-inner">
+          <div class="topbar-contacts">
+            <a href="mailto:Wandacommunicationsug@gmail.com">
+              <i class="bi bi-envelope-fill"></i>
+              Wandacommunicationsug@gmail.com
+            </a>
+            <a href="tel:+256701234567">
+              <i class="bi bi-telephone-fill"></i>
+              +256 700 123 456
+            </a>
+          </div>
+          <div class="topbar-right">
+            <div class="topbar-social">
+              <a href="#" aria-label="Facebook"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a href="#" aria-label="Twitter"
+                ><i class="bi bi-twitter-x"></i
+              ></a>
+              <a href="#" aria-label="Instagram"
+                ><i class="bi bi-instagram"></i
+              ></a>
+              <a href="#" aria-label="LinkedIn"
+                ><i class="bi bi-linkedin"></i
+              ></a>
+            </div>
+            <div class="topbar-divider"></div>
+            <a href="contact.html" class="topbar-cta-link">
+              Free Consultation <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+      <div class="container">
+        <a href="index.html" class="nav-logo">
+          <img
+            src="logo.jpg"
+            alt="Wanda Communications Uganda"
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'flex';
+            "
+          />
+          <div class="nav-logo-text" style="display: none">
+            <span class="logo-wanda">WANDA</span>
+            <span class="logo-comms">COMMUNICATIONS</span>
+          </div>
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="portfolio.html">Portfolio</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li>
+            <a href="contact.html" class="btn btn-primary btn-sm">Contact Us</a>
+          </li>
+        </ul>
+        <button
+          class="hamburger"
+          id="hamburger"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <div class="page-hero-bg"></div>
+      <div class="page-hero-geo1"></div>
+      <div class="page-hero-geo2"></div>
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <i class="bi bi-chevron-right"></i>
+          <span>Portfolio</span>
+        </div>
+        <h1>Our Portfolio</h1>
+        <p>
+          A showcase of impactful projects across photography, videography,
+          advocacy, and strategic communication.
+        </p>
+      </div>
+    </section>
+
+    <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       PORTFOLIO SECTION
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+    <section class="portfolio-full">
+      <div class="container">
+        <!-- Filter -->
+        <div class="portfolio-filter">
+          <button class="filter-btn active" data-filter="all">
+            All Projects
+          </button>
+          <button class="filter-btn" data-filter="photography">
+            Photography
+          </button>
+          <button class="filter-btn" data-filter="videography">
+            Videography
+          </button>
+          <button class="filter-btn" data-filter="advocacy">Advocacy</button>
+          <button class="filter-btn" data-filter="reports">
+            Reports &amp; Publications
+          </button>
+        </div>
+
+        <!-- Grid -->
+        <div class="portfolio-grid">
+          <!-- 1 -->
+          <div
+            class="portfolio-item"
+            data-category="photography"
+            data-title="RISING Project Documentary Photography"
+            data-desc="Comprehensive documentation of the RISING Project â€” improving access to quality education for vulnerable children and refugee communities across Uganda. High-quality photography captured the human stories behind the programme's impact."
+          >
+            <div
+              class="portfolio-thumb"
+              style="background: linear-gradient(135deg, #1b2a6b, #1cb8d6)"
+            >
+              <img
+                src="images/Girl reading gallery.JPG"
+                alt="RISING Project Documentary Photography"
+              />
+              <i class="bi bi-camera portfolio-thumb-icon"></i>
+              <span class="portfolio-category">Photography</span>
+              <div class="portfolio-overlay">
+                <div class="portfolio-overlay-icon">
+                  <i class="bi bi-zoom-in"></i>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-body">
+              <h3>RISING Project Documentary</h3>
+              <p>
+                Education access for vulnerable &amp; refugee children across
+                Uganda.
+              </p>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div
+            class="portfolio-item"
+            data-category="videography"
+            data-title="Education Cannot Wait â€” Videography"
+            data-desc="Video documentation for the Education Cannot Wait gender-responsive education and child protection initiative. The project supports vulnerable children and adolescents, capturing their stories of resilience and hope."
+          >
+            <div
+              class="portfolio-thumb"
+              style="background: linear-gradient(135deg, #122051, #1a3580)"
+            >
+              <img
+                src="images/Breakfast gallery.JPG"
+                alt="Education Cannot Wait Videography"
+              />
+              <i class="bi bi-camera-video portfolio-thumb-icon"></i>
+              <span class="portfolio-category">Videography</span>
+              <div class="portfolio-overlay">
+                <div class="portfolio-overlay-icon">
+                  <i class="bi bi-zoom-in"></i>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-body">
+              <h3>Education Cannot Wait</h3>
+              <p>
+                Gender-responsive education &amp; child protection initiative.
+              </p>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div
+            class="portfolio-item"
+            data-category="advocacy"
+            data-title="International Day of the Girl â€” Videography"
+            data-desc="Documentary videography for the International Day of the Girl, highlighting girls occupying leadership spaces and speaking on issues affecting them. A powerful advocacy campaign celebrating girl power and voice."
+          >
+            <div
+              class="portfolio-thumb"
+              style="background: linear-gradient(135deg, #6b21a8, #1cb8d6)"
+            >
+              <img
+                src="images/Girl child signing of Signature board gallery.JPG"
+                alt="International Day of the Girl"
+              />
+              <i class="bi bi-person-hearts portfolio-thumb-icon"></i>
+              <span class="portfolio-category">Advocacy</span>
+              <div class="portfolio-overlay">
+                <div class="portfolio-overlay-icon">
+                  <i class="bi bi-zoom-in"></i>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-body">
+              <h3>International Day of the Girl</h3>
+              <p>Girls in leadership â€” advocacy videography campaign.</p>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div
+            class="portfolio-item"
+            data-category="advocacy"
+            data-title="Adolescent Girls in Crisis Project"
+            data-desc="Communication support for a programme empowering girls and young mothers with life skills, economic opportunities, and sexual reproductive health education. Created strategic communication materials and visual documentation."
+          >
+            <div
+              class="portfolio-thumb"
+              style="background: linear-gradient(135deg, #0d5a47, #1cb8d6)"
+            >
+              <img
+                src="images/Antonnette and Hon. Agnes gallerry.JPG"
+                alt="Adolescent Girls in Crisis Project"
+              />
+              <i class="bi bi-heart portfolio-thumb-icon"></i>
+              <span class="portfolio-category">Advocacy</span>
+              <div class="portfolio-overlay">
+                <div class="portfolio-overlay-icon">
+                  <i class="bi bi-zoom-in"></i>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-body">
+              <h3>Adolescent Girls in Crisis</h3>
+              <p>
+                Empowering girls with life skills &amp; economic opportunities.
+              </p>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div
+            class="portfolio-item"
+            data-category="reports"
+            data-title="Climate Action Accelerator â€” Documentation &amp; Reports"
+            data-desc="End-to-end communication support for the Climate Action Accelerator Project â€” a youth-focused climate resilience and environmental action initiative. Produced programme reports, photo documentation, and multimedia content."
+          >
+            <div
+              class="portfolio-thumb"
+              style="background: linear-gradient(135deg, #14532d, #16a34a)"
+            >
+              <img
+                src="images/M&E presentation.JPG"
+                alt="Climate Action Accelerator Documentation"
+              />
+              <i class="bi bi-tree portfolio-thumb-icon"></i>
+              <span class="portfolio-category">Reports</span>
+              <div class="portfolio-overlay">
+                <div class="portfolio-overlay-icon">
+                  <i class="bi bi-zoom-in"></i>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-body">
+              <h3>Climate Action Accelerator</h3>
+              <p>
+                Youth climate resilience â€” documentation &amp; publication.
+              </p>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div
+            class="portfolio-item"
+            data-category="photography"
+            data-title="Corporate Branding Photography"
+            data-desc="Professional corporate photography sessions for NGOs and development organisations â€” headshots, office environments, programme activities, and branded event coverage. Delivered high-resolution images for publications, websites, and social media."
+          >
+            <div
+              class="portfolio-thumb"
+              style="background: linear-gradient(135deg, #92400e, #f59e0b)"
+            >
+              <img
+                src="images/Guests gallery.JPG"
+                alt="Corporate Branding Photography"
+              />
+              <i class="bi bi-building portfolio-thumb-icon"></i>
+              <span class="portfolio-category">Photography</span>
+              <div class="portfolio-overlay">
+                <div class="portfolio-overlay-icon">
+                  <i class="bi bi-zoom-in"></i>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-body">
+              <h3>Corporate Branding Photography</h3>
+              <p>Professional organisational photography for NGOs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA STRIP -->
+    <section class="cta-strip">
+      <div class="container">
+        <h2 class="reveal">Have a Project in Mind?</h2>
+        <p class="reveal delay-1">
+          Let us help you document your impact, build your brand, and tell your
+          story with clarity and power.
+        </p>
+        <div class="reveal delay-2">
+          <a href="contact.html" class="btn btn-primary btn-lg">
+            Start Your Project <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img
+              src="logo.jpg"
+              alt="Wanda Communications"
+              class="footer-logo"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'block';
+              "
+            />
+            <div class="footer-logo-text" style="display: none">
+              <div class="fw">WANDA</div>
+              <div class="fc">COMMUNICATIONS</div>
+            </div>
+            <p>
+              Your Strategic Partner In Achieving Communication Excellence.
+              Delivering innovative, results-driven solutions that inspire
+              action and foster lasting impact.
+            </p>
+            <div class="social-links">
+              <a href="#" class="social-link" aria-label="Facebook"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a href="#" class="social-link" aria-label="Twitter / X"
+                ><i class="bi bi-twitter-x"></i
+              ></a>
+              <a href="#" class="social-link" aria-label="LinkedIn"
+                ><i class="bi bi-linkedin"></i
+              ></a>
+              <a href="#" class="social-link" aria-label="Instagram"
+                ><i class="bi bi-instagram"></i
+              ></a>
+              <a href="#" class="social-link" aria-label="YouTube"
+                ><i class="bi bi-youtube"></i
+              ></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li>
+                <a href="index.html"
+                  ><i class="bi bi-chevron-right"></i> Home</a
+                >
+              </li>
+              <li>
+                <a href="about.html"
+                  ><i class="bi bi-chevron-right"></i> About Us</a
+                >
+              </li>
+              <li>
+                <a href="services.html"
+                  ><i class="bi bi-chevron-right"></i> Services</a
+                >
+              </li>
+              <li>
+                <a href="team.html"
+                  ><i class="bi bi-chevron-right"></i> Our Team</a
+                >
+              </li>
+              <li>
+                <a href="portfolio.html"
+                  ><i class="bi bi-chevron-right"></i> Portfolio</a
+                >
+              </li>
+              <li>
+                <a href="blog.html"><i class="bi bi-chevron-right"></i> Blog</a>
+              </li>
+              <li>
+                <a href="contact.html"
+                  ><i class="bi bi-chevron-right"></i> Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact Us</h4>
+            <div class="footer-contact-item">
+              <i class="bi bi-geo-alt-fill"></i>
+              <span>P.O. Box 116842, Wakiso, Uganda</span>
+            </div>
+            <div class="footer-contact-item">
+              <i class="bi bi-envelope-fill"></i>
+              <span
+                ><a href="mailto:Wandacommunicationsug@gmail.com"
+                  >Wandacommunicationsug@gmail.com</a
+                ></span
+              >
+            </div>
+            <div class="footer-contact-item">
+              <i class="bi bi-telephone-fill"></i>
+              <span>
+                <a href="tel:+256772935325">+256 772 935 325</a><br />
+                <a href="tel:+256700112974">+256 700 112 974</a>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 Wanda Communications (U) Ltd. All rights reserved.</p>
+          <p>
+            Designed with <span style="color: var(--primary)">&hearts;</span> in
+            Uganda
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- LIGHTBOX -->
+    <div
+      class="lightbox"
+      id="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lbTitle"
+    >
+      <button
+        class="lightbox-close"
+        id="lightboxClose"
+        aria-label="Close lightbox"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+      <div class="lightbox-content">
+        <div class="lightbox-img">
+          <i
+            class="bi bi-image"
+            style="font-size: 4rem; color: rgba(255, 255, 255, 0.3)"
+          ></i>
+        </div>
+        <div class="lightbox-body">
+          <span class="lbcat" id="lbCategory"></span>
+          <h3 id="lbTitle"></h3>
+          <p id="lbDesc"></p>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/gallery.js"></script>
+  </body>
+</html>
