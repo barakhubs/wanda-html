@@ -10,14 +10,14 @@
 
 // ── Database ─────────────────────────────────────────────────────────────────
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'wanda_db');
-define('DB_USER', 'root');       // XAMPP default
-define('DB_PASS', '');           // XAMPP default (no password)
+define('DB_NAME', 'wandacom_wanda_db');
+define('DB_USER', 'wandacom_wanda_db');
+define('DB_PASS', 'YTn4PwzdceW6DmBRNYnJ');
 define('DB_CHARSET', 'utf8mb4');
 
 // ── Site URL ─────────────────────────────────────────────────────────────────
-// No trailing slash. Change if the site lives at a different path.
-define('BASE_URL', 'http://localhost:5000');
+// No trailing slash.
+define('BASE_URL', 'https://wandacommunications.com');
 
 // ── Filesystem paths ─────────────────────────────────────────────────────────
 define('ROOT_PATH',   dirname(__DIR__));           // d:\wanda-html

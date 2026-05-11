@@ -1,19 +1,22 @@
-Options -Indexes
+Options -Indexes +FollowSymLinks
 
-# Protect sensitive directories
+# Protect sensitive files
 <FilesMatch "\.(sql|md|gitignore)$">
   Order Allow,Deny
   Deny from all
 </FilesMatch>
 
+# Block direct access to router.php (dev only)
+<Files "router.php">
+  Order Allow,Deny
+  Deny from all
+</Files>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # -------------------------------------------------------
-  # CHANGE THIS if the site is not in /wanda-html/
-  # e.g. use  RewriteBase /  if it is the web root
-  # -------------------------------------------------------
-  RewriteBase /wanda-html/
+  # Site is served from public_html root
+  RewriteBase /
 
   # Skip real files and directories
   RewriteCond %{REQUEST_FILENAME} !-f
