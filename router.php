@@ -1,4 +1,5 @@
 <?php
+
 /**
  * router.php — PHP built-in server router
  *
@@ -7,6 +8,11 @@
  * Mirrors all mod_rewrite rules from .htaccess so clean URLs work
  * identically under the built-in dev server.
  */
+
+// ── Dev error display ─────────────────────────────────────────────────────────
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
 $uri  = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 $root = __DIR__;
@@ -28,9 +34,18 @@ if ($path === '') {
 }
 
 // Static pages
-if ($path === 'about')    { require $root . '/about.php';    exit; }
-if ($path === 'services') { require $root . '/services.php'; exit; }
-if ($path === 'contact')  { require $root . '/contact.php';  exit; }
+if ($path === 'about') {
+    require $root . '/about.php';
+    exit;
+}
+if ($path === 'services') {
+    require $root . '/services.php';
+    exit;
+}
+if ($path === 'contact') {
+    require $root . '/contact.php';
+    exit;
+}
 
 // Blog list
 if ($path === 'blog') {
@@ -64,4 +79,8 @@ if (str_starts_with($path, 'admin')) {
 
 // 404 — nothing matched
 http_response_code(404);
-require $root . '/404.php' ?: echo '<h1>404 Not Found</h1>';
+if (file_exists($root . '/404.php')) {
+    require $root . '/404.php';
+} else {
+    echo '<h1>404 Not Found</h1>';
+}

@@ -68,7 +68,7 @@ require_once __DIR__ . '/includes/header.php';
                             <?php if (!empty($skills)) : ?>
                                 <div class="team-skills">
                                     <?php foreach ($skills as $skill) : ?>
-                                        <span class="skill-tag"><?= e($skill['skill_name']) ?></span>
+                                        <span class="skill-tag"><?= e($skill) ?></span>
                                     <?php endforeach; ?>
                                 </div>
                             <?php endif; ?>

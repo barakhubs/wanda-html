@@ -2788,7 +2788,7 @@ section {
     grid-template-columns: 1fr;
   }
   .footer-grid {
-    grid-template-columns: 1fr;
+    /* grid-template-columns: 1fr; */
     gap: 2rem;
   }
   .footer-brand {

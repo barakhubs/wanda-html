@@ -88,7 +88,7 @@
 
           <div class="footer-bottom">
               <p>&copy; <?= date('Y') ?> <?= e(setting('site_title', 'Wanda Communications Uganda')) ?>. All rights reserved.</p>
-              <p>Designed with <i class="bi bi-heart-fill" style="color:var(--primary)"></i> for Impact</p>
+              <!-- <p>Designed with <i class="bi bi-heart-fill" style="color:var(--primary)"></i> for Impact</p> -->
           </div>
       </div>
   </footer>
