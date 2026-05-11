@@ -10,14 +10,17 @@
 
 // ── Database ─────────────────────────────────────────────────────────────────
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'wandacom_wanda_db');
-define('DB_USER', 'wandacom_wanda_db');
-define('DB_PASS', 'YTn4PwzdceW6DmBRNYnJ');
+define('DB_NAME', 'wanda_db');
+define('DB_USER', 'root');
+define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
 // ── Site URL ─────────────────────────────────────────────────────────────────
 // No trailing slash.
-define('BASE_URL', 'https://wandacommunications.com');
+// Auto-detect: use localhost when running locally, production URL otherwise.
+define('BASE_URL', (isset($_SERVER['HTTP_HOST']) && str_contains($_SERVER['HTTP_HOST'], 'localhost'))
+    ? 'http://' . $_SERVER['HTTP_HOST']
+    : 'https://wandacommunications.com');
 
 // ── Filesystem paths ─────────────────────────────────────────────────────────
 define('ROOT_PATH',   dirname(__DIR__));           // d:\wanda-html

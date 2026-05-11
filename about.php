@@ -105,7 +105,7 @@ require_once __DIR__ . '/includes/header.php';
             <p>Four pillars that guide every project we undertake.</p>
         </div>
 
-        <div class="services-grid-full" style="grid-template-columns: repeat(2, 1fr)">
+        <div class="services-grid-full services-grid-2col">
             <div class="service-card-full reveal delay-1">
                 <div class="service-icon"><i class="bi bi-file-earmark-richtext"></i></div>
                 <h3>High-Quality Communication Products</h3>

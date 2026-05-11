@@ -72,7 +72,7 @@ require_once __DIR__ . '/includes/header.php';
   ══════════════════════════════════════════ -->
 <section style="padding:4rem 0;background:var(--bg-light)">
     <div class="container">
-        <div style="display:grid;grid-template-columns:1fr 300px;gap:3rem;align-items:start">
+        <div class="post-layout">
 
             <!-- Article body -->
             <article>
