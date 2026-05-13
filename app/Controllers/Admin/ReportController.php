@@ -57,10 +57,15 @@ class ReportController extends AdminBaseController
             return;
         }
 
-        $db   = \Database::getInstance();
-        $slug = uniqueSlug($db, generateSlug($data['title']), 'reports');
+        $db        = \Database::getInstance();
+        $slug      = uniqueSlug($db, generateSlug($data['title']), 'reports');
+        $coverPath = generatePdfCover($pdfPath, $slug);
 
-        (new Report())->create(array_merge($data, ['slug' => $slug, 'pdf_path' => $pdfPath]));
+        (new Report())->create(array_merge($data, [
+            'slug'       => $slug,
+            'pdf_path'   => $pdfPath,
+            'cover_path' => $coverPath,
+        ]));
 
         flashMessage('success', 'Report created successfully.');
         $this->redirect(BASE_URL . '/admin/reports');
@@ -97,15 +102,18 @@ class ReportController extends AdminBaseController
             $this->redirect(BASE_URL . '/admin/reports');
         }
 
-        $data    = $this->collectPost();
-        $errors  = $this->validate($data);
-        $pdfPath = $report['pdf_path'];
+        $data      = $this->collectPost();
+        $errors    = $this->validate($data);
+        $pdfPath   = $report['pdf_path'];
+        $coverPath = $report['cover_path'] ?? null;
 
         if (!empty($_FILES['pdf_file']['name'])) {
             try {
                 $newPdf = handleUpload($_FILES['pdf_file'], 'reports');
                 deleteUpload($report['pdf_path']);
-                $pdfPath = $newPdf;
+                deleteUpload($report['cover_path'] ?? '');
+                $pdfPath   = $newPdf;
+                $coverPath = null; // regenerated below after slug is resolved
             } catch (\RuntimeException $e) {
                 $errors[] = 'PDF upload failed: ' . $e->getMessage();
             }
@@ -127,7 +135,16 @@ class ReportController extends AdminBaseController
             $slug = uniqueSlug($db, generateSlug($data['title']), 'reports', $id);
         }
 
-        $model->update($id, array_merge($data, ['slug' => $slug, 'pdf_path' => $pdfPath]));
+        // If PDF was replaced, generate new cover now that slug is finalised
+        if ($coverPath === null && $pdfPath !== $report['pdf_path']) {
+            $coverPath = generatePdfCover($pdfPath, $slug);
+        }
+
+        $model->update($id, array_merge($data, [
+            'slug'       => $slug,
+            'pdf_path'   => $pdfPath,
+            'cover_path' => $coverPath,
+        ]));
         flashMessage('success', 'Report updated.');
         $this->redirect(BASE_URL . '/admin/reports');
     }
@@ -146,6 +163,7 @@ class ReportController extends AdminBaseController
         }
 
         deleteUpload($report['pdf_path']);
+        deleteUpload($report['cover_path'] ?? '');
         $model->delete($id);
 
         flashMessage('success', 'Report deleted.');
@@ -157,11 +175,12 @@ class ReportController extends AdminBaseController
     private function defaults(): array
     {
         return [
-            'title'     => '',
-            'category'  => REPORT_CATEGORIES[0],
-            'excerpt'   => '',
-            'published' => 0,
-            'pdf_path'  => null,
+            'title'      => '',
+            'category'   => REPORT_CATEGORIES[0],
+            'excerpt'    => '',
+            'published'  => 0,
+            'pdf_path'   => null,
+            'cover_path' => null,
         ];
     }
 

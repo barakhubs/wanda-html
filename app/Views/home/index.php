@@ -78,9 +78,9 @@
         <div class="about-home-grid">
             <div class="about-visual-wrap reveal-left">
                 <div class="about-img-box">
-                    <img src="<?= BASE_URL ?>/images/Group photo 2 gallery.JPG" alt="Wanda Communications team"
-                        onerror="this.style.display='none'">
-                    <i class="bi bi-people-fill about-img-placeholder"></i>
+                    <video src="<?= BASE_URL ?>/images/our-story.mp4"
+                        autoplay controls loop playsinline
+                        style="width:100%;height:100%;object-fit:cover;display:block"></video>
                 </div>
                 <div class="about-accent-box pos-1">
                     <div class="about-accent-num">50+</div>

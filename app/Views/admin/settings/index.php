@@ -209,8 +209,8 @@
                         <div class="form-group">
                             <label for="smtp_encryption">Encryption</label>
                             <select id="smtp_encryption" name="smtp_encryption">
-                                <option value="tls"  <?= ($s['smtp_encryption'] ?? 'tls') === 'tls'  ? 'selected' : '' ?>>TLS (STARTTLS — port 587)</option>
-                                <option value="ssl"  <?= ($s['smtp_encryption'] ?? '') === 'ssl'      ? 'selected' : '' ?>>SSL (port 465)</option>
+                                <option value="tls" <?= ($s['smtp_encryption'] ?? 'tls') === 'tls'  ? 'selected' : '' ?>>TLS (STARTTLS — port 587)</option>
+                                <option value="ssl" <?= ($s['smtp_encryption'] ?? '') === 'ssl'      ? 'selected' : '' ?>>SSL (port 465)</option>
                                 <option value="none" <?= ($s['smtp_encryption'] ?? '') === 'none'     ? 'selected' : '' ?>>None</option>
                             </select>
                         </div>
@@ -252,3 +252,18 @@
         </form><!-- #settingsForm -->
     </div><!-- .admin-content -->
 </div><!-- .admin-main -->
+
+<script>
+    document.querySelectorAll('.settings-tab').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.settings-tab').forEach(function(b) {
+                b.classList.remove('active');
+            });
+            document.querySelectorAll('.settings-panel').forEach(function(p) {
+                p.classList.remove('active');
+            });
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.target).classList.add('active');
+        });
+    });
+</script>

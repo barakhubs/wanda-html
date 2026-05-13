@@ -37,7 +37,7 @@ function setting(string $key, string $default = ''): string
         }
     }
 
-    return array_key_exists($key, $cache) ? (string) $cache[$key] : $default;
+    return (array_key_exists($key, $cache) && $cache[$key] !== '') ? (string) $cache[$key] : $default;
 }
 
 // ── CSRF protection ───────────────────────────────────────────────────────────
@@ -185,8 +185,9 @@ function handleUpload(array $file, string $subfolder): string
         throw new \RuntimeException($msgs[$file['error']] ?? 'Upload error code ' . $file['error']);
     }
 
-    if ($file['size'] > MAX_UPLOAD_BYTES) {
-        throw new \RuntimeException('File is too large (max ' . (MAX_UPLOAD_BYTES / 1024 / 1024) . ' MB).');
+    $maxBytes = ($subfolder === 'reports') ? 10 * 1024 * 1024 : MAX_UPLOAD_BYTES;
+    if ($file['size'] > $maxBytes) {
+        throw new \RuntimeException('File is too large (max ' . ($maxBytes / 1024 / 1024) . ' MB).');
     }
 
     // Verify MIME type using finfo (do NOT trust $_FILES['type'])
@@ -258,6 +259,49 @@ function paginate(int $total, int $perPage, int $currentPage): array
         'prev_page'    => $current - 1,
         'next_page'    => $current + 1,
     ];
+}
+
+/**
+ * Generate a JPEG thumbnail from the first page of a PDF using Imagick.
+ *
+ * Requires the PHP Imagick extension and Ghostscript on the system PATH.
+ * Returns the relative path (e.g. 'uploads/reports/covers/my-report.jpg')
+ * or null if Imagick is unavailable or generation fails — always fails gracefully.
+ *
+ * @param  string $pdfRelPath  Relative path returned by handleUpload(), e.g. 'uploads/reports/abc.pdf'.
+ * @param  string $slug        Report slug used as the cover filename.
+ * @return string|null
+ */
+function generatePdfCover(string $pdfRelPath, string $slug): ?string
+{
+    if (!extension_loaded('imagick')) {
+        return null;
+    }
+    try {
+        $pdfAbs   = ROOT_PATH . '/public/' . ltrim($pdfRelPath, '/');
+        $coverDir = UPLOAD_PATH . 'reports/covers/';
+
+        if (!is_dir($coverDir) && !mkdir($coverDir, 0755, true)) {
+            return null;
+        }
+
+        $coverAbs = $coverDir . $slug . '.jpg';
+        $relPath  = 'uploads/reports/covers/' . $slug . '.jpg';
+
+        $imagick = new \Imagick();
+        $imagick->setResolution(150, 150);
+        $imagick->readImage($pdfAbs . '[0]');                        // first page only
+        $imagick->mergeImageLayers(\Imagick::LAYERMETHOD_FLATTEN);   // flatten transparency
+        $imagick->setImageFormat('jpg');
+        $imagick->setImageCompressionQuality(85);
+        $imagick->writeImage($coverAbs);
+        $imagick->clear();
+        $imagick->destroy();
+
+        return $relPath;
+    } catch (\Throwable) {
+        return null;
+    }
 }
 
 /**

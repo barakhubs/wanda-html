@@ -63,9 +63,9 @@ class View
      *
      * @param array<string, mixed> $data
      */
-    private static function capture(string $file, array $data, bool $echo = false): string
+    private static function capture(string $file, array $__viewData, bool $echo = false): string
     {
-        extract($data, EXTR_SKIP);
+        extract($__viewData, EXTR_SKIP);
         ob_start();
         require $file;
         $output = (string) ob_get_clean();

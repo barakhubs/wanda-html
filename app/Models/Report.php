@@ -14,7 +14,7 @@ class Report
     public function getAll(): array
     {
         return $this->db->query(
-            'SELECT id, title, slug, category, excerpt, pdf_path, published, created_at
+            'SELECT id, title, slug, category, excerpt, pdf_path, cover_path, published, created_at
              FROM reports ORDER BY created_at DESC'
         )->fetchAll();
     }
@@ -22,7 +22,7 @@ class Report
     public function getPublished(): array
     {
         return $this->db->query(
-            'SELECT id, title, slug, category, excerpt, pdf_path, created_at
+            'SELECT id, title, slug, category, excerpt, pdf_path, cover_path, created_at
              FROM reports WHERE published = 1 ORDER BY created_at DESC'
         )->fetchAll();
     }
@@ -30,7 +30,7 @@ class Report
     public function getPublishedByCategory(string $category): array
     {
         $stmt = $this->db->prepare(
-            'SELECT id, title, slug, category, excerpt, pdf_path, created_at
+            'SELECT id, title, slug, category, excerpt, pdf_path, cover_path, created_at
              FROM reports WHERE published = 1 AND category = ?
              ORDER BY created_at DESC'
         );
@@ -57,16 +57,17 @@ class Report
     public function create(array $data): int
     {
         $stmt = $this->db->prepare(
-            'INSERT INTO reports (title, slug, category, excerpt, pdf_path, published)
-             VALUES (:title, :slug, :category, :excerpt, :pdf_path, :published)'
+            'INSERT INTO reports (title, slug, category, excerpt, pdf_path, cover_path, published)
+             VALUES (:title, :slug, :category, :excerpt, :pdf_path, :cover_path, :published)'
         );
         $stmt->execute([
-            'title'     => $data['title'],
-            'slug'      => $data['slug'],
-            'category'  => $data['category'],
-            'excerpt'   => $data['excerpt'],
-            'pdf_path'  => $data['pdf_path'],
-            'published' => (int)($data['published'] ?? 0),
+            'title'      => $data['title'],
+            'slug'       => $data['slug'],
+            'category'   => $data['category'],
+            'excerpt'    => $data['excerpt'],
+            'pdf_path'   => $data['pdf_path'],
+            'cover_path' => $data['cover_path'] ?? null,
+            'published'  => (int)($data['published'] ?? 0),
         ]);
         return (int)$this->db->lastInsertId();
     }
@@ -75,22 +76,24 @@ class Report
     {
         $stmt = $this->db->prepare(
             'UPDATE reports SET
-               title     = :title,
-               slug      = :slug,
-               category  = :category,
-               excerpt   = :excerpt,
-               pdf_path  = :pdf_path,
-               published = :published
+               title      = :title,
+               slug       = :slug,
+               category   = :category,
+               excerpt    = :excerpt,
+               pdf_path   = :pdf_path,
+               cover_path = :cover_path,
+               published  = :published
              WHERE id = :id'
         );
         $stmt->execute([
-            'title'     => $data['title'],
-            'slug'      => $data['slug'],
-            'category'  => $data['category'],
-            'excerpt'   => $data['excerpt'],
-            'pdf_path'  => $data['pdf_path'],
-            'published' => (int)($data['published'] ?? 0),
-            'id'        => $id,
+            'title'      => $data['title'],
+            'slug'       => $data['slug'],
+            'category'   => $data['category'],
+            'excerpt'    => $data['excerpt'],
+            'pdf_path'   => $data['pdf_path'],
+            'cover_path' => $data['cover_path'] ?? null,
+            'published'  => (int)($data['published'] ?? 0),
+            'id'         => $id,
         ]);
     }
 

@@ -2302,6 +2302,15 @@ section {
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.8rem;
 }
+.footer-admin-link {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-admin-link:hover {
+  color: rgba(255, 255, 255, 0.6);
+}
 
 /* ===================================
    UTILITY
@@ -2612,7 +2621,7 @@ section {
 }
 .about-img-box {
   width: 100%;
-  max-width: 420px;
+  /* max-width: 420px; */
   aspect-ratio: 4/3;
   border-radius: var(--radius-lg);
   background: linear-gradient(
@@ -2627,7 +2636,8 @@ section {
   position: relative;
   box-shadow: var(--shadow-lg);
 }
-.about-img-box img {
+.about-img-box img,
+.about-img-box video {
   width: 100%;
   height: 100%;
   object-fit: cover;

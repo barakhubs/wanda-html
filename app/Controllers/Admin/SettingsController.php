@@ -8,7 +8,7 @@ class SettingsController extends AdminBaseController
 {
     public function index(): void
     {
-        \SiteSettings::ensureTable(\Database::getInstance());
+        SiteSettings::ensureTable(\Database::getInstance());
 
         $this->adminView('admin/settings/index', [
             'adminPageTitle' => 'Site Settings',
@@ -22,7 +22,7 @@ class SettingsController extends AdminBaseController
     {
         verifyCsrf();
 
-        \SiteSettings::ensureTable(\Database::getInstance());
+        SiteSettings::ensureTable(\Database::getInstance());
 
         $settings = new SiteSettings();
         $errors   = [];

@@ -54,7 +54,7 @@
             <div class="admin-card">
                 <div class="admin-card-title">PDF File *</div>
                 <div class="form-group">
-                    <label for="pdf_file">Upload PDF (max 5 MB)</label>
+                    <label for="pdf_file">Upload PDF (max 10 MB)</label>
                     <input type="file" id="pdf_file" name="pdf_file" accept="application/pdf" required>
                     <span class="form-hint">Only PDF files accepted. The file will be served inline (read-only, no forced download).</span>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="admin-card-title">Publish</div>
                 <div class="form-check">
                     <input type="checkbox" id="published" name="published" value="1"
-                           <?= $data['published'] ? 'checked' : '' ?>>
+                        <?= $data['published'] ? 'checked' : '' ?>>
                     <label for="published">Publish this report (visible on website)</label>
                 </div>
             </div>

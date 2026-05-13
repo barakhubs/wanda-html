@@ -59,7 +59,7 @@
                         <div>
                             <div style="font-size:.85rem;color:var(--admin-muted)">Current file:</div>
                             <a href="<?= e(BASE_URL . '/' . $data['pdf_path']) ?>" target="_blank"
-                               style="font-size:.9rem;word-break:break-all">
+                                style="font-size:.9rem;word-break:break-all">
                                 <?= e(basename($data['pdf_path'])) ?>
                             </a>
                         </div>
@@ -69,7 +69,7 @@
                 <div class="form-group">
                     <label for="pdf_file">Replace PDF (leave blank to keep current)</label>
                     <input type="file" id="pdf_file" name="pdf_file" accept="application/pdf">
-                    <span class="form-hint">Upload a new PDF only if you want to replace the existing file.</span>
+                    <span class="form-hint">Upload a new PDF only if you want to replace the existing file. Max 10 MB.</span>
                 </div>
             </div>
 
@@ -77,7 +77,7 @@
                 <div class="admin-card-title">Publish</div>
                 <div class="form-check">
                     <input type="checkbox" id="published" name="published" value="1"
-                           <?= $data['published'] ? 'checked' : '' ?>>
+                        <?= $data['published'] ? 'checked' : '' ?>>
                     <label for="published">Publish this report (visible on website)</label>
                 </div>
             </div>

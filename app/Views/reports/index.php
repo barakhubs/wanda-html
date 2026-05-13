@@ -21,10 +21,10 @@
         <!-- Category filter -->
         <div class="blog-filter">
             <a href="<?= BASE_URL ?>/reports"
-               class="filter-btn<?= $activeCategory === '' ? ' active' : '' ?>">All</a>
+                class="filter-btn<?= $activeCategory === '' ? ' active' : '' ?>">All</a>
             <?php foreach ($categories as $cat) : ?>
                 <a href="<?= BASE_URL ?>/reports?category=<?= urlencode($cat) ?>"
-                   class="filter-btn<?= $activeCategory === $cat ? ' active' : '' ?>">
+                    class="filter-btn<?= $activeCategory === $cat ? ' active' : '' ?>">
                     <?= e(ucfirst($cat)) ?>
                 </a>
             <?php endforeach; ?>
@@ -41,11 +41,17 @@
                     $date = date('M j, Y', strtotime($report['created_at']));
                 ?>
                     <article class="blog-card reveal">
-                        <!-- icon banner in place of thumbnail -->
-                        <div class="blog-thumb"
-                             style="background:linear-gradient(135deg,var(--secondary),var(--primary));display:flex;align-items:center;justify-content:center;min-height:160px">
-                            <i class="bi bi-file-earmark-pdf-fill"
-                               style="font-size:3.5rem;color:rgba(255,255,255,.85)"></i>
+                        <div class="blog-thumb">
+                            <?php if (!empty($report['cover_path'])) : ?>
+                                <img src="<?= BASE_URL . '/' . e($report['cover_path']) ?>"
+                                    alt="<?= e($report['title']) ?>"
+                                    style="width:100%;height:100%;object-fit:cover;display:block">
+                            <?php else : ?>
+                                <div style="background:linear-gradient(135deg,var(--secondary),var(--primary));display:flex;align-items:center;justify-content:center;height:100%">
+                                    <i class="bi bi-file-earmark-pdf-fill"
+                                        style="font-size:3.5rem;color:rgba(255,255,255,.85)"></i>
+                                </div>
+                            <?php endif; ?>
                             <span class="blog-cat"><?= e(ucfirst($report['category'])) ?></span>
                         </div>
                         <div class="blog-body">
@@ -59,7 +65,7 @@
                             </h3>
                             <p class="blog-excerpt"><?= e($report['excerpt']) ?></p>
                             <a href="<?= BASE_URL ?>/reports/<?= e($report['slug']) ?>"
-                               class="blog-read-more">
+                                class="blog-read-more">
                                 Read Report <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
