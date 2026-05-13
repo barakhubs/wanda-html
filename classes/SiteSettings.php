@@ -57,26 +57,35 @@ class SiteSettings
     // ── Write ─────────────────────────────────────────────────────────────────
 
     /**
-     * Upsert multiple settings at once.
+     * Upsert multiple settings at once using a single batched INSERT.
+     * Previously fired N individual execute() calls; now one round-trip regardless
+     * of how many keys are being saved.
      * Passing null as a value skips that key (e.g. file upload not provided).
      */
     public function setMany(array $data): void
     {
-        $stmt = $this->db->prepare(
-            'INSERT INTO site_settings (setting_key, setting_value)
-             VALUES (?, ?)
-             ON DUPLICATE KEY UPDATE
-               setting_value = VALUES(setting_value),
-               updated_at    = CURRENT_TIMESTAMP'
-        );
-
-        foreach ($data as $key => $value) {
-            if ($value !== null) {
-                $stmt->execute([$key, (string) $value]);
-            }
+        $filtered = array_filter($data, static fn($v) => $v !== null);
+        if (empty($filtered)) {
+            return;
         }
 
-        $this->cache = []; // invalidate cache
+        // Build one multi-row INSERT: (k,v),(k,v),…
+        $placeholders = implode(',', array_fill(0, count($filtered), '(?,?)'));
+        $values = [];
+        foreach ($filtered as $key => $value) {
+            $values[] = $key;
+            $values[] = (string) $value;
+        }
+
+        $this->db->prepare(
+            "INSERT INTO site_settings (setting_key, setting_value)
+             VALUES {$placeholders}
+             ON DUPLICATE KEY UPDATE
+               setting_value = VALUES(setting_value),
+               updated_at    = CURRENT_TIMESTAMP"
+        )->execute($values);
+
+        $this->cache = []; // invalidate per-request cache
     }
 
     // ── Schema helper ─────────────────────────────────────────────────────────

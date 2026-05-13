@@ -98,3 +98,8 @@
   </body>
 
   </html>
+  <?php
+    // Flush the output buffer started in bootstrap as a single write to the socket.
+    if (ob_get_level() > 0) {
+        ob_end_flush();
+    }

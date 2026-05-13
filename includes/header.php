@@ -76,8 +76,9 @@
     <nav class="navbar" id="navbar">
         <div class="container">
             <?php
-            $headerLogoSrc = !empty(setting('logo_path'))
-                ? BASE_URL . '/' . setting('logo_path')
+            $logoPath      = setting('logo_path');
+            $headerLogoSrc = $logoPath !== ''
+                ? BASE_URL . '/' . $logoPath
                 : BASE_URL . '/logo.jpg';
             $headerLogoAlt = setting('site_title', 'Wanda Communications Uganda');
             ?>

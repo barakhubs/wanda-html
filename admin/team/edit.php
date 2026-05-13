@@ -13,7 +13,8 @@ if (!$member) {
 
 $errors = [];
 $data   = $member;
-$skills = array_column($member['skills'] ?? [], 'skill_name');
+// $member['skills'] is already a flat string array from TeamMember::getById()
+$skills = $member['skills'] ?? [];
 if (empty($skills)) $skills = [''];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -55,14 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$gradients = [
-    'linear-gradient(135deg, #1a6fc4 0%, #0d3f70 100%)' => 'Blue',
-    'linear-gradient(135deg, #e8b84b 0%, #c0891d 100%)' => 'Amber',
-    'linear-gradient(135deg, #198754 0%, #0d4a2e 100%)' => 'Green',
-    'linear-gradient(135deg, #7c3aed 0%, #3b0764 100%)' => 'Purple',
-    'linear-gradient(135deg, #dc3545 0%, #7a0010 100%)' => 'Red',
-    'linear-gradient(135deg, #0d9488 0%, #042f2e 100%)' => 'Teal',
-];
+$gradients = GRADIENT_OPTIONS;
 
 $adminPageTitle    = 'Edit Team Member';
 $adminExtraScripts = <<<HTML

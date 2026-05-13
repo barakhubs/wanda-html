@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
 
     $data['title']     = trim($_POST['title'] ?? '');
-    $data['category']  = $_POST['category'] ?? 'general';
+    $rawCat            = $_POST['category'] ?? '';
+    $data['category']  = in_array($rawCat, BLOG_CATEGORIES, true) ? $rawCat : BLOG_CATEGORIES[0];
     $data['excerpt']   = trim($_POST['excerpt'] ?? '');
     $data['body']      = $_POST['body'] ?? '';
     $data['read_time'] = (int)($_POST['read_time'] ?? 3);
@@ -66,28 +67,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$categories = ['general', 'strategy', 'media', 'advocacy', 'events'];
+$categories = BLOG_CATEGORIES;
 
+require_once ROOT_PATH . '/admin/partials/quill-init.php';
 $adminPageTitle    = 'Edit Blog Post';
-$adminExtraHead    = '<style>.ql-editor{min-height:260px}</style>';
-$adminExtraScripts = <<<HTML
-<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-<script>
-  var quill = new Quill('#editor', { theme: 'snow', modules: { toolbar: [
-    ['bold','italic','underline','strike'],
-    [{ list:'ordered' },{ list:'bullet' }],
-    ['link','blockquote','code-block'],
-    [{ header:[1,2,3,false] }],
-    ['clean']
-  ]}});
-  document.querySelector('form').addEventListener('submit', function() {
-    document.getElementById('body-hidden').value = quill.root.innerHTML;
-  });
-</script>
-HTML;
+$adminExtraHead    = QUILL_HEAD_CSS;
+$adminExtraScripts = QUILL_INIT_JS;
 
 require_once ROOT_PATH . '/admin/partials/head.php';
-echo '<link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">';
 require_once ROOT_PATH . '/admin/partials/sidebar.php';
 ?>
 

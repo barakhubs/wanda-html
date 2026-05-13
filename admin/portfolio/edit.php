@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verifyCsrf();
 
     $data['title']        = trim($_POST['title'] ?? '');
-    $data['category']     = $_POST['category'] ?? 'photography';
+    $rawCat               = $_POST['category'] ?? '';
+    $data['category']     = in_array($rawCat, PORTFOLIO_CATEGORIES, true) ? $rawCat : PORTFOLIO_CATEGORIES[0];
     $data['short_desc']   = trim($_POST['short_desc'] ?? '');
     $data['full_desc']    = trim($_POST['full_desc'] ?? '');
     $data['gradient_css'] = trim($_POST['gradient_css'] ?? $data['gradient_css']);
@@ -55,15 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$categories = ['photography', 'videography', 'advocacy', 'reports'];
-$gradients  = [
-    'linear-gradient(135deg, #1a6fc4 0%, #0d3f70 100%)' => 'Blue',
-    'linear-gradient(135deg, #e8b84b 0%, #c0891d 100%)' => 'Amber',
-    'linear-gradient(135deg, #198754 0%, #0d4a2e 100%)' => 'Green',
-    'linear-gradient(135deg, #7c3aed 0%, #3b0764 100%)' => 'Purple',
-    'linear-gradient(135deg, #dc3545 0%, #7a0010 100%)' => 'Red',
-    'linear-gradient(135deg, #0d9488 0%, #042f2e 100%)' => 'Teal',
-];
+$categories = PORTFOLIO_CATEGORIES;
+$gradients  = GRADIENT_OPTIONS;
 
 $adminPageTitle = 'Edit Portfolio Item';
 require_once ROOT_PATH . '/admin/partials/head.php';

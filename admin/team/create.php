@@ -42,25 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        $model = new TeamMember();
-        $memberId = $model->create(array_merge($data, ['photo' => $photo]));
-        if ($memberId && !empty($skills)) {
-            $model->saveSkills($memberId, array_values($skills));
-        }
+        $model    = new TeamMember();
+        // Pass skills inside data so TeamMember::create() saves them in one transaction.
+        $model->create(array_merge($data, ['photo' => $photo, 'skills' => array_values($skills)]));
         flashMessage('success', 'Team member added.');
         header('Location: ' . BASE_URL . '/admin/team/');
         exit;
     }
 }
 
-$gradients = [
-    'linear-gradient(135deg, #1a6fc4 0%, #0d3f70 100%)' => 'Blue',
-    'linear-gradient(135deg, #e8b84b 0%, #c0891d 100%)' => 'Amber',
-    'linear-gradient(135deg, #198754 0%, #0d4a2e 100%)' => 'Green',
-    'linear-gradient(135deg, #7c3aed 0%, #3b0764 100%)' => 'Purple',
-    'linear-gradient(135deg, #dc3545 0%, #7a0010 100%)' => 'Red',
-    'linear-gradient(135deg, #0d9488 0%, #042f2e 100%)' => 'Teal',
-];
+$gradients = GRADIENT_OPTIONS;
 
 $adminPageTitle    = 'Add Team Member';
 $adminExtraScripts = <<<HTML

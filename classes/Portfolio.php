@@ -12,49 +12,46 @@ class Portfolio
         $this->db = Database::getInstance();
     }
 
+    /** All items (admin list). Excludes full_desc; edit form uses getById(). */
     public function getAll(): array
     {
         $stmt = $this->db->query(
-            'SELECT * FROM portfolio_items ORDER BY sort_order ASC, id ASC'
+            'SELECT id, title, slug, category, short_desc, thumbnail,
+                    gradient_css, icon_class, featured, sort_order, published
+             FROM portfolio_items ORDER BY sort_order ASC, id ASC'
         );
         return $stmt->fetchAll();
     }
 
+    /** Published items for the public portfolio page. Excludes full_desc. */
     public function getPublished(): array
     {
         $stmt = $this->db->query(
-            'SELECT * FROM portfolio_items WHERE published = 1 ORDER BY sort_order ASC, id ASC'
+            'SELECT id, title, slug, category, short_desc, thumbnail,
+                    gradient_css, icon_class, featured, sort_order, published
+             FROM portfolio_items WHERE published = 1 ORDER BY sort_order ASC, id ASC'
         );
         return $stmt->fetchAll();
     }
 
-    /** Items marked featured = 1, for homepage (max $limit) */
+    /**
+     * Up to $limit published items for the homepage, featured first.
+     * ORDER BY featured DESC means featured=1 rows sort before featured=0,
+     * so a single query replaces the old two-query fallback pattern.
+     */
     public function getFeatured(int $limit = 3): array
     {
         $stmt = $this->db->prepare(
-            'SELECT * FROM portfolio_items
-             WHERE published = 1 AND featured = 1
-             ORDER BY sort_order ASC, id ASC
+            'SELECT id, title, slug, category, short_desc, thumbnail,
+                    gradient_css, icon_class, featured, sort_order
+             FROM portfolio_items
+             WHERE published = 1
+             ORDER BY featured DESC, sort_order ASC, id ASC
              LIMIT ?'
         );
         $stmt->bindValue(1, $limit, PDO::PARAM_INT);
         $stmt->execute();
-        $rows = $stmt->fetchAll();
-
-        // Fall back to most recent published items if fewer than $limit featured
-        if (count($rows) < $limit) {
-            $stmt2 = $this->db->prepare(
-                'SELECT * FROM portfolio_items
-                 WHERE published = 1
-                 ORDER BY sort_order ASC, id ASC
-                 LIMIT ?'
-            );
-            $stmt2->bindValue(1, $limit, PDO::PARAM_INT);
-            $stmt2->execute();
-            $rows = $stmt2->fetchAll();
-        }
-
-        return $rows;
+        return $stmt->fetchAll();
     }
 
     public function getById(int $id): ?array

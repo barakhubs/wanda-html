@@ -14,9 +14,8 @@ $counts = [
     'testimonials' => $testimonialModel->count(),
 ];
 
-// Recent blog posts (5)
-$recentPosts = $blogModel->getAll();
-$recentPosts = array_slice($recentPosts, 0, 5);
+// Recent blog posts (5) — uses LIMIT query instead of fetching the whole table
+$recentPosts = $blogModel->getRecent(5);
 
 $adminPageTitle = 'Dashboard';
 $flash = getFlash();

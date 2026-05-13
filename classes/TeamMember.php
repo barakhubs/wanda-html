@@ -137,7 +137,7 @@ class TeamMember
         $this->saveSkills($id, $data['skills'] ?? []);
     }
 
-    private function saveSkills(int $memberId, array $skills): void
+    public function saveSkills(int $memberId, array $skills): void
     {
         $stmt = $this->db->prepare(
             'INSERT INTO team_skills (member_id, skill_name, sort_order) VALUES (?, ?, ?)'

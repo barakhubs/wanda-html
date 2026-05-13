@@ -10,10 +10,14 @@
 
 // ── Database ─────────────────────────────────────────────────────────────────
 define('DB_HOST', 'localhost');
+define('DB_PORT', 3306);
 define('DB_NAME', 'wanda_db');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
+// Set true in production when running PHP-FPM + a long-lived connection pool
+// (e.g. ProxySQL or PgBouncer equivalent). Keep false on shared hosting.
+define('DB_PERSISTENT', false);
 
 // ── Site URL ─────────────────────────────────────────────────────────────────
 // No trailing slash.
@@ -34,3 +38,18 @@ define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'webp', 'gif']);
 
 // ── Session ───────────────────────────────────────────────────────────────────
 define('SESSION_NAME', 'wanda_session');
+
+// ── Content categories ────────────────────────────────────────────────────────
+// These must stay in sync with the ENUM definitions in database/schema.sql.
+define('BLOG_CATEGORIES',      ['storytelling', 'advocacy', 'digital', 'strategy']);
+define('PORTFOLIO_CATEGORIES', ['photography', 'videography', 'advocacy', 'reports']);
+
+// ── Gradient presets (used in portfolio and team admin forms) ─────────────────
+define('GRADIENT_OPTIONS', [
+    'linear-gradient(135deg, #1a6fc4 0%, #0d3f70 100%)' => 'Blue',
+    'linear-gradient(135deg, #e8b84b 0%, #c0891d 100%)' => 'Amber',
+    'linear-gradient(135deg, #198754 0%, #0d4a2e 100%)' => 'Green',
+    'linear-gradient(135deg, #7c3aed 0%, #3b0764 100%)' => 'Purple',
+    'linear-gradient(135deg, #dc3545 0%, #7a0010 100%)' => 'Red',
+    'linear-gradient(135deg, #0d9488 0%, #042f2e 100%)' => 'Teal',
+]);

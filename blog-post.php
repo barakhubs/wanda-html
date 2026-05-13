@@ -29,16 +29,15 @@ if (!$post) {
     exit;
 }
 
-$pageTitle   = e($post['title']) . ' | Wanda Communications Uganda';
-$pageDesc    = e($post['excerpt']);
+$pageTitle   = $post['title'] . ' | Wanda Communications Uganda';
+$pageDesc    = $post['excerpt'];  // header.php applies e() — do not pre-escape here
 $currentPage = 'blog';
 
-$thumbSrc  = $post['thumbnail'] ? BASE_URL . '/' . $post['thumbnail'] : null;
+$thumbSrc      = $post['thumbnail'] ? BASE_URL . '/' . $post['thumbnail'] : null;
 $dateFormatted = date('F j, Y', strtotime($post['created_at']));
 
-// Recent posts for sidebar
-$recentPosts = $blogModel->getFeatured(4);
-$recentPosts = array_filter($recentPosts, fn($p) => $p['id'] !== $post['id']);
+// Sidebar: SQL-level exclusion of the current post; no PHP array_filter needed.
+$recentPosts = $blogModel->getSidebarPosts($post['id'], 4);
 
 require_once __DIR__ . '/includes/header.php';
 ?>

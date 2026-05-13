@@ -63,7 +63,7 @@ $adminPageTitle = 'Login';
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username"
-                        value="<?= e(htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES)) ?>"
+                        value="<?= e($_POST['username'] ?? '') ?>"
                         required autocomplete="username" autofocus>
                 </div>
                 <div class="form-group">

@@ -12,29 +12,32 @@ class BlogPost
         $this->db = Database::getInstance();
     }
 
-    /** All posts (admin use — includes unpublished) */
+    /** All posts (admin use — includes unpublished). Excludes body LONGTEXT; edit form uses getById(). */
     public function getAll(): array
     {
         $stmt = $this->db->query(
-            'SELECT * FROM blog_posts ORDER BY created_at DESC'
+            'SELECT id, title, slug, category, thumbnail, published, created_at
+             FROM blog_posts ORDER BY created_at DESC'
         );
         return $stmt->fetchAll();
     }
 
-    /** Published posts only (public use) */
+    /** Published posts for the public listing page. Excludes body LONGTEXT. */
     public function getPublished(): array
     {
         $stmt = $this->db->query(
-            'SELECT * FROM blog_posts WHERE published = 1 ORDER BY created_at DESC'
+            'SELECT id, title, slug, category, excerpt, thumbnail, read_time, published, created_at
+             FROM blog_posts WHERE published = 1 ORDER BY created_at DESC'
         );
         return $stmt->fetchAll();
     }
 
-    /** N most-recent published posts (homepage sidebar / featured strip) */
+    /** N most-recent published posts (homepage / featured strip). Excludes body LONGTEXT. */
     public function getFeatured(int $limit = 3): array
     {
         $stmt = $this->db->prepare(
-            'SELECT * FROM blog_posts WHERE published = 1 ORDER BY created_at DESC LIMIT ?'
+            'SELECT id, title, slug, category, excerpt, thumbnail, read_time, created_at
+             FROM blog_posts WHERE published = 1 ORDER BY created_at DESC LIMIT ?'
         );
         $stmt->bindValue(1, $limit, PDO::PARAM_INT);
         $stmt->execute();
@@ -119,8 +122,39 @@ class BlogPost
         $stmt->execute([$id]);
     }
 
+    /** Most-recent $limit posts regardless of published status (admin dashboard use). */
+    public function getRecent(int $limit = 5): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT id, title, slug, category, published, created_at
+             FROM blog_posts ORDER BY created_at DESC LIMIT ?'
+        );
+        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     public function count(): int
     {
         return (int) $this->db->query('SELECT COUNT(*) FROM blog_posts')->fetchColumn();
+    }
+
+    /**
+     * Sidebar posts: recent published, excluding the currently-viewed post.
+     * Only fetches the 3 columns the sidebar template actually renders —
+     * avoids pulling LONGTEXT body and large excerpt fields.
+     */
+    public function getSidebarPosts(int $excludeId, int $limit = 4): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT id, title, slug, created_at
+             FROM blog_posts
+             WHERE published = 1 AND id != ?
+             ORDER BY created_at DESC LIMIT ?'
+        );
+        $stmt->bindValue(1, $excludeId, PDO::PARAM_INT);
+        $stmt->bindValue(2, $limit,     PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

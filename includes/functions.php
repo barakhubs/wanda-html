@@ -25,11 +25,11 @@ function uniqueSlug(PDO $db, string $slug, string $table, int $excludeId = 0): s
 {
     $base  = $slug;
     $count = 1;
+    // Prepare once outside the loop — re-executing a PDOStatement is far cheaper
+    // than re-preparing on every collision iteration.
+    $stmt  = $db->prepare("SELECT id FROM `{$table}` WHERE slug = ? AND id != ?");
 
     do {
-        $stmt = $db->prepare(
-            "SELECT id FROM `{$table}` WHERE slug = ? AND id != ?"
-        );
         $stmt->execute([$slug, $excludeId]);
         $exists = (bool) $stmt->fetchColumn();
 
@@ -94,8 +94,8 @@ function handleUpload(array $file, string $subDir): string
         throw new RuntimeException('Image type not allowed: ' . $mime);
     }
 
-    // Safe extension from MIME
-    $extMap = [
+    // Static: allocated once per PHP process lifetime rather than on every upload call.
+    static $extMap = [
         'image/jpeg' => 'jpg',
         'image/png'  => 'png',
         'image/webp' => 'webp',
