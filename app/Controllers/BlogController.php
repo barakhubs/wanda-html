@@ -60,6 +60,7 @@ class BlogController extends BaseController
             'currentPage' => 'blog',
             'post'        => $post,
             'sidebar'     => $sidebar,
+            'thumbSrc'    => !empty($post['thumbnail']) ? BASE_URL . '/' . $post['thumbnail'] : null,
         ]);
     }
 
