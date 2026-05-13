@@ -17,7 +17,8 @@ define('DB_PERSISTENT', filter_var($_ENV['DB_PERSISTENT'] ?? false, FILTER_VALID
 
 // ── Site URL ─────────────────────────────────────────────────────────────────
 // Prefer the .env APP_URL; fall back to host-based detection for local dev.
-define('BASE_URL',
+define(
+    'BASE_URL',
     isset($_ENV['APP_URL']) && $_ENV['APP_URL'] !== ''
         ? rtrim($_ENV['APP_URL'], '/')
         : ((isset($_SERVER['HTTP_HOST']) && str_contains($_SERVER['HTTP_HOST'], 'localhost'))
@@ -41,6 +42,7 @@ define('SESSION_NAME', $_ENV['SESSION_NAME'] ?? 'wanda_session');
 // ── Content categories ────────────────────────────────────────────────────────
 define('BLOG_CATEGORIES',      ['storytelling', 'advocacy', 'digital', 'strategy']);
 define('PORTFOLIO_CATEGORIES', ['photography', 'videography', 'advocacy', 'reports']);
+define('REPORT_CATEGORIES',    ['research', 'policy', 'advocacy', 'evaluation', 'annual']);
 
 // ── Gradient presets (portfolio & team admin forms) ───────────────────────────
 define('GRADIENT_OPTIONS', [

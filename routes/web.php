@@ -11,6 +11,7 @@ use App\Controllers\BlogController;
 use App\Controllers\ContactController;
 use App\Controllers\HomeController;
 use App\Controllers\PortfolioController;
+use App\Controllers\ReportController;
 use App\Controllers\ServicesController;
 use App\Controllers\TeamController;
 use App\Controllers\Admin\AuthController;
@@ -18,6 +19,7 @@ use App\Controllers\Admin\BlogController      as AdminBlogController;
 use App\Controllers\Admin\DashboardController;
 use App\Controllers\Admin\GalleryController;
 use App\Controllers\Admin\PortfolioController as AdminPortfolioController;
+use App\Controllers\Admin\ReportController   as AdminReportController;
 use App\Controllers\Admin\SettingsController;
 use App\Controllers\Admin\TeamController      as AdminTeamController;
 use App\Controllers\Admin\TestimonialController;
@@ -30,6 +32,8 @@ $router->get('/team',        [TeamController::class,      'index']);
 $router->get('/portfolio',   [PortfolioController::class, 'index']);
 $router->get('/blog',        [BlogController::class,      'index']);
 $router->get('/blog/{slug}', [BlogController::class,      'show']);
+$router->get('/reports',          [ReportController::class,    'index']);
+$router->get('/reports/{slug}',   [ReportController::class,    'show']);
 $router->get('/contact',     [ContactController::class,   'index']);
 
 // ── Admin routes ──────────────────────────────────────────────────────────────
@@ -80,6 +84,18 @@ $router->post('/admin/gallery/delete/{id}',  [GalleryController::class, 'destroy
 $router->get('/admin/settings',  [SettingsController::class, 'index']);
 $router->post('/admin/settings', [SettingsController::class, 'save']);
 
+// Reports
+$router->get('/admin/reports',                [AdminReportController::class, 'index']);
+$router->get('/admin/reports/create',         [AdminReportController::class, 'create']);
+$router->post('/admin/reports/create',        [AdminReportController::class, 'store']);
+$router->get('/admin/reports/edit/{id}',      [AdminReportController::class, 'edit']);
+$router->post('/admin/reports/edit/{id}',     [AdminReportController::class, 'update']);
+$router->post('/admin/reports/delete/{id}',   [AdminReportController::class, 'destroy']);
+
 // Setup (one-time only — delete after use)
-$router->get('/setup',  function () { require ROOT_PATH . '/setup.php'; });
-$router->post('/setup', function () { require ROOT_PATH . '/setup.php'; });
+$router->get('/setup',  function () {
+    require ROOT_PATH . '/setup.php';
+});
+$router->post('/setup', function () {
+    require ROOT_PATH . '/setup.php';
+});

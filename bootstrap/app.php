@@ -55,4 +55,5 @@ if (!headers_sent()) {
 
 // ── View init ─────────────────────────────────────────────────────────────────
 use App\Core\View;
+
 View::init(ROOT_PATH . '/app/Views');

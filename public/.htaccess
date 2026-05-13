@@ -5,9 +5,10 @@ Options -Indexes
     RewriteEngine On
     RewriteBase /
 
-    # Skip real files and directories (CSS, JS, images, uploads, etc.)
+    # Skip real files (CSS, JS, images, uploads, etc.) — but NOT directories,
+    # because virtual paths like /admin map to real dirs (public/admin/) and
+    # must still be routed through index.php.
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
 
     # Send everything else to index.php
     RewriteRule ^ index.php [L,QSA]

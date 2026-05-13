@@ -1,86 +1,27 @@
 <?php
 
 /**
- * router.php — PHP built-in server router
+ * router.php — PHP built-in server router script.
  *
- * Usage:  php -S localhost:5000 router.php
+ * Usage (from project root):
+ *   php -S localhost:8000 -t public router.php
  *
- * Mirrors all mod_rewrite rules from .htaccess so clean URLs work
- * identically under the built-in dev server.
+ * The -t public flag sets the document root to public/, so that:
+ *   - returning false serves the file correctly from public/
+ *   - /admin/* routes are not blocked by the public/admin/ directory
+ *
+ * Do NOT use:  php -S localhost:8000 router.php          (no -t → CSS 404s)
+ * Do NOT use:  php -S localhost:8000 -t public           (no router → all routes 404)
  */
 
-// ── Dev error display ─────────────────────────────────────────────────────────
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+$uri  = $_SERVER['REQUEST_URI'];
+$file = __DIR__ . '/public' . urldecode(parse_url($uri, PHP_URL_PATH));
 
-$uri  = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-$root = __DIR__;
-
-// Serve real files and directories directly (CSS, JS, images, etc.)
-if ($uri !== '/' && file_exists($root . $uri)) {
+// Let the server handle real files (assets) natively
+if (is_file($file)) {
     return false;
 }
 
-// Strip leading slash, strip trailing slash
-$path = trim($uri, '/');
-
-// ── Route table ───────────────────────────────────────────────────────────────
-
-// Home
-if ($path === '') {
-    require $root . '/index.php';
-    exit;
-}
-
-// Static pages
-if ($path === 'about') {
-    require $root . '/about.php';
-    exit;
-}
-if ($path === 'services') {
-    require $root . '/services.php';
-    exit;
-}
-if ($path === 'contact') {
-    require $root . '/contact.php';
-    exit;
-}
-
-// Blog list
-if ($path === 'blog') {
-    require $root . '/blog.php';
-    exit;
-}
-
-// Blog post: /blog/<slug>
-if (preg_match('#^blog/([a-z0-9\-]+)$#', $path, $m)) {
-    $_GET['slug'] = $m[1];
-    require $root . '/blog-post.php';
-    exit;
-}
-
-// Portfolio
-if ($path === 'portfolio') {
-    require $root . '/portfolio.php';
-    exit;
-}
-
-// Team
-if ($path === 'team') {
-    require $root . '/team.php';
-    exit;
-}
-
-// Admin — let PHP serve the real file tree normally
-if (str_starts_with($path, 'admin')) {
-    return false;
-}
-
-// 404 — nothing matched
-http_response_code(404);
-if (file_exists($root . '/404.php')) {
-    require $root . '/404.php';
-} else {
-    echo '<h1>404 Not Found</h1>';
-}
+// Everything else goes through the front-controller
+$_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/public/index.php';
+require __DIR__ . '/public/index.php';

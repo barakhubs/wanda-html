@@ -11,5 +11,5 @@ return array(
     '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
     'ec07570ca5a812141189b1fa81503674' => $vendorDir . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
-    '88bb568f7ca02dd4dd4bf7bd1789e300' => $baseDir . '/includes/functions.php',
+    '4bead9a19200ebf5e4c54fa3744cbc3f' => $baseDir . '/app/helpers.php',
 );

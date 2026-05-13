@@ -64,7 +64,7 @@ class Router
 
         // No route matched — 404
         http_response_code(404);
-        echo '<h1>404 — Page Not Found</h1>';
+        View::render('errors/404', [], 'main');
     }
 
     /**
