@@ -14,7 +14,7 @@
         <?php endif; ?>
 
         <div class="admin-card">
-            <div class="admin-card-title">All Portfolio Items (<?= count($items) ?>)</div>
+            <div class="admin-card-title">All Portfolio Items (<?= $pagination['total'] ?>)</div>
             <?php if (empty($items)) : ?>
                 <p style="color:var(--admin-muted)">No portfolio items yet. <a href="<?= BASE_URL ?>/admin/portfolio/create">Add one.</a></p>
             <?php else : ?>
@@ -64,7 +64,5 @@
                     </table>
                 </div>
             <?php endif; ?>
+            <?= paginationHtml($pagination, BASE_URL . '/admin/portfolio') ?>
         </div>
-
-    </div>
-</div>

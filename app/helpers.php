@@ -262,6 +262,76 @@ function paginate(int $total, int $perPage, int $currentPage): array
 }
 
 /**
+ * Render an accessible pagination strip using the admin-pagination CSS class.
+ *
+ * Produces «prev … 1 2 [3] 4 5 … next» with ellipsis compression.
+ * Returns an empty string when there is only one page.
+ *
+ * @param array  $p        The array returned by paginate().
+ * @param string $baseUrl  The listing URL without any query string (e.g. '/admin/blog').
+ */
+function paginationHtml(array $p, string $baseUrl): string
+{
+    if ($p['total_pages'] <= 1) {
+        return '';
+    }
+
+    $cur   = $p['current_page'];
+    $last  = $p['total_pages'];
+    $base  = rtrim($baseUrl, '/');
+    $range = 2; // pages shown on each side of current
+
+    $link = static function (int $pg, string $label, string $ariaLabel = '') use ($base): string {
+        $href = e($base . '?page=' . $pg);
+        $aria = $ariaLabel ? ' aria-label="' . e($ariaLabel) . '"' : '';
+        return "<a href=\"{$href}\"{$aria}>{$label}</a>";
+    };
+
+    $html  = '<nav class="admin-pagination" aria-label="Page navigation">' . "\n";
+
+    // ← Previous
+    if ($p['has_prev']) {
+        $html .= $link($p['prev_page'], '&laquo;', 'Previous page');
+    } else {
+        $html .= '<span aria-hidden="true">&laquo;</span>';
+    }
+
+    $ellipsisLeft  = false;
+    $ellipsisRight = false;
+
+    for ($i = 1; $i <= $last; $i++) {
+        $nearCurrent = ($i >= $cur - $range && $i <= $cur + $range);
+        $isEdge      = ($i === 1 || $i === $last);
+
+        if ($isEdge || $nearCurrent) {
+            if ($i === $cur) {
+                $html .= '<span class="current" aria-current="page">' . $i . '</span>';
+            } else {
+                $html .= $link($i, (string) $i);
+            }
+            $ellipsisLeft  = false;
+            $ellipsisRight = false;
+        } elseif ($i < $cur && !$ellipsisLeft) {
+            $html .= '<span class="pagination-ellipsis" aria-hidden="true">…</span>';
+            $ellipsisLeft = true;
+        } elseif ($i > $cur && !$ellipsisRight) {
+            $html .= '<span class="pagination-ellipsis" aria-hidden="true">…</span>';
+            $ellipsisRight = true;
+        }
+    }
+
+    // → Next
+    if ($p['has_next']) {
+        $html .= $link($p['next_page'], '&raquo;', 'Next page');
+    } else {
+        $html .= '<span aria-hidden="true">&raquo;</span>';
+    }
+
+    $html .= "\n</nav>";
+    return $html;
+}
+
+/**
  * Generate a JPEG thumbnail from the first page of a PDF using Imagick.
  *
  * Requires the PHP Imagick extension and Ghostscript on the system PATH.

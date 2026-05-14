@@ -27,6 +27,20 @@ class TeamMember
         return $this->attachSkills($stmt->fetchAll());
     }
 
+    public function countAll(): int
+    {
+        return (int) $this->db->query('SELECT COUNT(*) FROM team_members')->fetchColumn();
+    }
+
+    public function getAllAdminPaged(int $page, int $perPage): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT * FROM team_members ORDER BY sort_order ASC, id ASC LIMIT ? OFFSET ?'
+        );
+        $stmt->execute([$perPage, ($page - 1) * $perPage]);
+        return $this->attachSkills($stmt->fetchAll());
+    }
+
     public function getById(int $id): ?array
     {
         $stmt = $this->db->prepare('SELECT * FROM team_members WHERE id = ?');

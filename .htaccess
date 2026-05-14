@@ -1,45 +1,41 @@
 Options -Indexes +FollowSymLinks
 
-# Protect sensitive files
-<FilesMatch "\.(sql|md|gitignore)$">
-  Order Allow,Deny
-  Deny from all
+# ── Protect sensitive file types ──────────────────────────────────────────────
+
+<FilesMatch "\.(env|sql|md|json|lock|xml|gitignore|log|sh|ini)$">
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+Order Allow,Deny
+Deny from all
+</IfModule>
 </FilesMatch>
 
-# Block direct access to router.php (dev only)
-<Files "router.php">
-  Order Allow,Deny
-  Deny from all
-</Files>
+# ── Routing ───────────────────────────────────────────────────────────────────
+
+# All rewrite logic is in a single <IfModule> block so RewriteEngine On
+
+# is guaranteed to apply to every rule below it.
 
 <IfModule mod_rewrite.c>
-  RewriteEngine On
+    RewriteEngine On
+    RewriteBase /
 
-  # Site is served from public_html root
-  RewriteBase /
+    # Block direct access to sensitive source directories
+    RewriteRule ^(app|bootstrap|config|database|includes|routes|tests|vendor)(/|$) - [F,L]
 
-  # Skip real files and directories
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
+    # Block dotfiles (except .well-known for SSL/ACME challenges)
+    RewriteRule (^|/)\.(?!well-known) - [F,L]
 
-  # Clean URL: /blog/some-slug  → blog-post.php?slug=some-slug
-  RewriteRule ^blog/([a-z0-9\-]+)/?$  blog-post.php?slug=$1  [L,QSA]
+    # Serve real static files that exist inside public/ (CSS, JS, images, uploads).
+    # Exclude /index.php — that is a mod_dir DirectoryIndex artefact for the
+    # domain root "/" and must fall through to the front-controller catch-all.
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+    RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+    RewriteRule ^ public%{REQUEST_URI} [L]
 
-  # Clean URL: /blog  → blog.php
-  RewriteRule ^blog/?$   blog.php   [L,QSA]
+    # Everything else goes to the front controller
+    RewriteRule ^ public/index.php [L,QSA]
 
-  # Clean URL: /portfolio  → portfolio.php
-  RewriteRule ^portfolio/?$  portfolio.php  [L,QSA]
-
-  # Clean URL: /team  → team.php
-  RewriteRule ^team/?$   team.php   [L,QSA]
-
-  # Clean URL: /about  → about.php
-  RewriteRule ^about/?$   about.php   [L,QSA]
-
-  # Clean URL: /services  → services.php
-  RewriteRule ^services/?$   services.php   [L,QSA]
-
-  # Clean URL: /contact  → contact.php
-  RewriteRule ^contact/?$   contact.php   [L,QSA]
 </IfModule>

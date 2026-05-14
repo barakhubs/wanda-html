@@ -14,7 +14,7 @@
         <?php endif; ?>
 
         <div class="admin-card">
-            <div class="admin-card-title">All Members (<?= count($members) ?>)</div>
+            <div class="admin-card-title">All Members (<?= $pagination['total'] ?>)</div>
             <?php if (empty($members)) : ?>
                 <p style="color:var(--admin-muted)">No team members yet. <a href="<?= BASE_URL ?>/admin/team/create">Add one.</a></p>
             <?php else : ?>
@@ -62,7 +62,5 @@
                     </table>
                 </div>
             <?php endif; ?>
+            <?= paginationHtml($pagination, BASE_URL . '/admin/team') ?>
         </div>
-
-    </div>
-</div>

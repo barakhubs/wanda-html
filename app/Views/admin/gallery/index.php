@@ -14,7 +14,7 @@
         <?php endif; ?>
 
         <div class="admin-card">
-            <div class="admin-card-title">Gallery Images (<?= count($images) ?>)</div>
+            <div class="admin-card-title">Gallery Images (<?= $pagination['total'] ?>)</div>
             <?php if (empty($images)) : ?>
                 <p style="color:var(--admin-muted)">No gallery images yet. <a href="<?= BASE_URL ?>/admin/gallery/create">Upload one.</a></p>
             <?php else : ?>
@@ -37,7 +37,5 @@
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+            <?= paginationHtml($pagination, BASE_URL . '/admin/gallery') ?>
         </div>
-
-    </div>
-</div>

@@ -8,10 +8,16 @@ class PortfolioController extends AdminBaseController
 {
     public function index(): void
     {
+        $perPage = 20;
+        $model   = new Portfolio();
+        $page    = max(1, (int) ($_GET['page'] ?? 1));
+        $pgn     = paginate($model->count(), $perPage, $page);
+
         $this->adminView('admin/portfolio/index', [
             'adminPageTitle' => 'Portfolio',
             'flash'          => getFlash(),
-            'items'          => (new Portfolio())->getAll(),
+            'items'          => $model->getAllPaged($pgn['current_page'], $perPage),
+            'pagination'     => $pgn,
         ]);
     }
 

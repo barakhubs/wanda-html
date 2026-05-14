@@ -14,7 +14,7 @@
         <?php endif; ?>
 
         <div class="admin-card">
-            <div class="admin-card-title">All Posts (<?= count($posts) ?>)</div>
+            <div class="admin-card-title">All Posts (<?= $pagination['total'] ?>)</div>
             <?php if (empty($posts)) : ?>
                 <p style="color:var(--admin-muted)">No blog posts yet. <a href="<?= BASE_URL ?>/admin/blog/create">Create one.</a></p>
             <?php else : ?>
@@ -69,7 +69,5 @@
                     </table>
                 </div>
             <?php endif; ?>
+            <?= paginationHtml($pagination, BASE_URL . '/admin/blog') ?>
         </div>
-
-    </div>
-</div>

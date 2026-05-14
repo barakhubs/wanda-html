@@ -14,7 +14,7 @@
         <?php endif; ?>
 
         <div class="admin-card">
-            <div class="admin-card-title">All Testimonials (<?= count($testimonials) ?>)</div>
+            <div class="admin-card-title">All Testimonials (<?= $pagination['total'] ?>)</div>
             <?php if (empty($testimonials)) : ?>
                 <p style="color:var(--admin-muted)">No testimonials yet. <a href="<?= BASE_URL ?>/admin/testimonials/create">Add one.</a></p>
             <?php else : ?>
@@ -54,7 +54,5 @@
                     </table>
                 </div>
             <?php endif; ?>
+            <?= paginationHtml($pagination, BASE_URL . '/admin/testimonials') ?>
         </div>
-
-    </div>
-</div>

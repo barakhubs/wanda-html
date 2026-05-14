@@ -19,6 +19,16 @@ class Report
         )->fetchAll();
     }
 
+    public function getAllPaged(int $page, int $perPage): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT id, title, slug, category, excerpt, pdf_path, cover_path, published, created_at
+             FROM reports ORDER BY created_at DESC LIMIT ? OFFSET ?'
+        );
+        $stmt->execute([$perPage, ($page - 1) * $perPage]);
+        return $stmt->fetchAll();
+    }
+
     public function getPublished(): array
     {
         return $this->db->query(

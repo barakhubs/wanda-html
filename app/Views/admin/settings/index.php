@@ -3,7 +3,8 @@
         <h1><i class="bi bi-gear-fill"></i> Site Settings</h1>
         <div class="admin-topbar-actions">
             <button form="settingsForm" type="submit" class="btn-adm btn-adm-primary">
-                <i class="bi bi-check-lg"></i> Save All Settings
+                <i class="bi bi-check-lg" aria-hidden="true"></i>
+                <span class="btn-label">Save Settings</span>
             </button>
         </div>
     </div>
@@ -180,14 +181,13 @@
             <!-- TAB 5 — EMAIL & SMTP -->
             <div class="settings-panel" id="tab-email">
                 <div class="admin-card">
-                    <div class="admin-card-title"><i class="bi bi-envelope"></i> Contact Form</div>
-                    <div class="form-row col-2">
-                        <div class="form-group">
-                            <label for="form_recipient_email">Form Recipient Email</label>
-                            <input type="email" id="form_recipient_email" name="form_recipient_email"
-                                value="<?= e($s['form_recipient_email'] ?? '') ?>"
-                                placeholder="Wandacommunicationsug@gmail.com">
-                        </div>
+                    <div class="admin-card-title"><i class="bi bi-envelope" aria-hidden="true"></i> Contact Form</div>
+                    <div class="form-group" style="max-width:480px">
+                        <label for="form_recipient_email">Form Recipient Email</label>
+                        <input type="email" id="form_recipient_email" name="form_recipient_email"
+                            value="<?= e($s['form_recipient_email'] ?? '') ?>"
+                            placeholder="Wandacommunicationsug@gmail.com">
+                        <span class="form-hint">All contact-form submissions are delivered to this address.</span>
                     </div>
                 </div>
 
@@ -245,7 +245,8 @@
 
             <div style="display:flex;justify-content:flex-end;padding-bottom:.5rem">
                 <button type="submit" class="btn-adm btn-adm-primary btn-adm-lg">
-                    <i class="bi bi-check-lg"></i> Save All Settings
+                    <i class="bi bi-check-lg" aria-hidden="true"></i>
+                    <span>Save All Settings</span>
                 </button>
             </div>
 
@@ -254,16 +255,69 @@
 </div><!-- .admin-main -->
 
 <script>
-    document.querySelectorAll('.settings-tab').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.settings-tab').forEach(function(b) {
+    (function() {
+        var tabList = document.querySelector('.settings-tabs');
+        var tabs = document.querySelectorAll('.settings-tab');
+        var panels = document.querySelectorAll('.settings-panel');
+
+        /* Initialise ARIA roles on load */
+        if (tabList) tabList.setAttribute('role', 'tablist');
+        tabs.forEach(function(btn, idx) {
+            btn.setAttribute('role', 'tab');
+            btn.setAttribute('id', 'stab-' + idx);
+            btn.setAttribute('aria-controls', btn.dataset.target);
+            btn.setAttribute('aria-selected', btn.classList.contains('active') ? 'true' : 'false');
+            btn.setAttribute('tabindex', btn.classList.contains('active') ? '0' : '-1');
+            var panel = document.getElementById(btn.dataset.target);
+            if (panel) {
+                panel.setAttribute('role', 'tabpanel');
+                panel.setAttribute('tabindex', '0');
+                panel.setAttribute('aria-labelledby', 'stab-' + idx);
+            }
+        });
+
+        function activateTab(btn) {
+            tabs.forEach(function(b) {
                 b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+                b.setAttribute('tabindex', '-1');
             });
-            document.querySelectorAll('.settings-panel').forEach(function(p) {
+            panels.forEach(function(p) {
                 p.classList.remove('active');
             });
+
             btn.classList.add('active');
-            document.getElementById(btn.dataset.target).classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+            btn.setAttribute('tabindex', '0');
+            var panel = document.getElementById(btn.dataset.target);
+            if (panel) {
+                panel.classList.add('active');
+                /* Scroll tab into view on mobile */
+                btn.scrollIntoView({
+                    block: 'nearest',
+                    inline: 'nearest',
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        /* Click */
+        tabs.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                activateTab(btn);
+            });
         });
-    });
+
+        /* Roving tabindex — Arrow keys */
+        tabs.forEach(function(btn, idx) {
+            btn.addEventListener('keydown', function(e) {
+                var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+                if (!dir) return;
+                e.preventDefault();
+                var next = tabs[(idx + dir + tabs.length) % tabs.length];
+                activateTab(next);
+                next.focus();
+            });
+        });
+    })();
 </script>

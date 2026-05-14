@@ -22,10 +22,16 @@ JS;
 
     public function index(): void
     {
+        $perPage = 20;
+        $model   = new TeamMember();
+        $page    = max(1, (int) ($_GET['page'] ?? 1));
+        $pgn     = paginate($model->countAll(), $perPage, $page);
+
         $this->adminView('admin/team/index', [
             'adminPageTitle' => 'Team Members',
             'flash'          => getFlash(),
-            'members'        => (new TeamMember())->getAllAdmin(),
+            'members'        => $model->getAllAdminPaged($pgn['current_page'], $perPage),
+            'pagination'     => $pgn,
         ]);
     }
 

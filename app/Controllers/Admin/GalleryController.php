@@ -8,10 +8,16 @@ class GalleryController extends AdminBaseController
 {
     public function index(): void
     {
+        $perPage = 24;
+        $model   = new HomeGallery();
+        $page    = max(1, (int) ($_GET['page'] ?? 1));
+        $pgn     = paginate($model->count(), $perPage, $page);
+
         $this->adminView('admin/gallery/index', [
             'adminPageTitle' => 'Home Gallery',
             'flash'          => getFlash(),
-            'images'         => (new HomeGallery())->getAll(),
+            'images'         => $model->getAllPaged($pgn['current_page'], $perPage),
+            'pagination'     => $pgn,
         ]);
     }
 

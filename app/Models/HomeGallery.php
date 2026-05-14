@@ -27,6 +27,20 @@ class HomeGallery
         return $stmt->fetchAll();
     }
 
+    public function count(): int
+    {
+        return (int) $this->db->query('SELECT COUNT(*) FROM home_gallery')->fetchColumn();
+    }
+
+    public function getAllPaged(int $page, int $perPage): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT * FROM home_gallery ORDER BY sort_order ASC, id ASC LIMIT ? OFFSET ?'
+        );
+        $stmt->execute([$perPage, ($page - 1) * $perPage]);
+        return $stmt->fetchAll();
+    }
+
     public function getById(int $id): ?array
     {
         $stmt = $this->db->prepare('SELECT * FROM home_gallery WHERE id = ?');

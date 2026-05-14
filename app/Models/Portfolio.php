@@ -21,6 +21,17 @@ class Portfolio
         return $stmt->fetchAll();
     }
 
+    public function getAllPaged(int $page, int $perPage): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT id, title, slug, category, short_desc, thumbnail,
+                    gradient_css, icon_class, featured, sort_order, published
+             FROM portfolio_items ORDER BY sort_order ASC, id ASC LIMIT ? OFFSET ?'
+        );
+        $stmt->execute([$perPage, ($page - 1) * $perPage]);
+        return $stmt->fetchAll();
+    }
+
     public function getPublished(): array
     {
         $stmt = $this->db->query(

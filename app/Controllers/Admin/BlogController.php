@@ -8,10 +8,16 @@ class BlogController extends AdminBaseController
 {
     public function index(): void
     {
+        $perPage = 20;
+        $model   = new BlogPost();
+        $page    = max(1, (int) ($_GET['page'] ?? 1));
+        $pgn     = paginate($model->count(), $perPage, $page);
+
         $this->adminView('admin/blog/index', [
             'adminPageTitle' => 'Blog Posts',
             'flash'          => getFlash(),
-            'posts'          => (new BlogPost())->getAll(),
+            'posts'          => $model->getAllPaged($pgn['current_page'], $perPage),
+            'pagination'     => $pgn,
         ]);
     }
 

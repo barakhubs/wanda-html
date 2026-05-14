@@ -8,10 +8,16 @@ class ReportController extends AdminBaseController
 {
     public function index(): void
     {
+        $perPage = 20;
+        $model   = new Report();
+        $page    = max(1, (int) ($_GET['page'] ?? 1));
+        $pgn     = paginate($model->count(), $perPage, $page);
+
         $this->adminView('admin/reports/index', [
             'adminPageTitle' => 'Reports',
             'flash'          => getFlash(),
-            'reports'        => (new Report())->getAll(),
+            'reports'        => $model->getAllPaged($pgn['current_page'], $perPage),
+            'pagination'     => $pgn,
         ]);
     }
 

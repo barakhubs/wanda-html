@@ -27,6 +27,15 @@ class Testimonial
         return $stmt->fetchAll();
     }
 
+    public function getAllPaged(int $page, int $perPage): array
+    {
+        $stmt = $this->db->prepare(
+            'SELECT * FROM testimonials ORDER BY sort_order ASC, id ASC LIMIT ? OFFSET ?'
+        );
+        $stmt->execute([$perPage, ($page - 1) * $perPage]);
+        return $stmt->fetchAll();
+    }
+
     public function getById(int $id): ?array
     {
         $stmt = $this->db->prepare('SELECT * FROM testimonials WHERE id = ?');

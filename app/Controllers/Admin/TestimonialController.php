@@ -8,10 +8,16 @@ class TestimonialController extends AdminBaseController
 {
     public function index(): void
     {
+        $perPage = 20;
+        $model   = new Testimonial();
+        $page    = max(1, (int) ($_GET['page'] ?? 1));
+        $pgn     = paginate($model->count(), $perPage, $page);
+
         $this->adminView('admin/testimonials/index', [
             'adminPageTitle' => 'Testimonials',
             'flash'          => getFlash(),
-            'testimonials'   => (new Testimonial())->getAll(),
+            'testimonials'   => $model->getAllPaged($pgn['current_page'], $perPage),
+            'pagination'     => $pgn,
         ]);
     }
 

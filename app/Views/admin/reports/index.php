@@ -15,7 +15,7 @@
         <?php endif; ?>
 
         <div class="admin-card">
-            <div class="admin-card-title">All Reports (<?= count($reports) ?>)</div>
+            <div class="admin-card-title">All Reports (<?= $pagination['total'] ?>)</div>
             <?php if (empty($reports)) : ?>
                 <p style="color:var(--admin-muted)">No reports yet. <a href="<?= BASE_URL ?>/admin/reports/create">Upload one.</a></p>
             <?php else : ?>
@@ -46,19 +46,19 @@
                                     <td><?= e(date('d M Y', strtotime($report['created_at']))) ?></td>
                                     <td style="white-space:nowrap">
                                         <a href="<?= BASE_URL ?>/reports/<?= e($report['slug']) ?>" target="_blank"
-                                           class="btn-adm btn-adm-outline btn-adm-sm" title="View public page">
+                                            class="btn-adm btn-adm-outline btn-adm-sm" title="View public page">
                                             <i class="bi bi-eye"></i>
                                         </a>
                                         <a href="<?= BASE_URL . '/public/' . e($report['pdf_path']) ?>" target="_blank"
-                                           class="btn-adm btn-adm-outline btn-adm-sm" title="Open PDF">
+                                            class="btn-adm btn-adm-outline btn-adm-sm" title="Open PDF">
                                             <i class="bi bi-filetype-pdf"></i>
                                         </a>
                                         <a href="<?= BASE_URL ?>/admin/reports/edit/<?= $report['id'] ?>"
-                                           class="btn-adm btn-adm-outline btn-adm-sm" title="Edit">
+                                            class="btn-adm btn-adm-outline btn-adm-sm" title="Edit">
                                             <i class="bi bi-pencil"></i>
                                         </a>
                                         <form method="post" action="<?= BASE_URL ?>/admin/reports/delete/<?= $report['id'] ?>"
-                                              style="display:inline" onsubmit="return confirm('Delete this report and its PDF?')">
+                                            style="display:inline" onsubmit="return confirm('Delete this report and its PDF?')">
                                             <?= csrfField() ?>
                                             <button type="submit" class="btn-adm btn-adm-danger btn-adm-sm" title="Delete">
                                                 <i class="bi bi-trash"></i>
@@ -71,7 +71,5 @@
                     </table>
                 </div>
             <?php endif; ?>
+            <?= paginationHtml($pagination, BASE_URL . '/admin/reports') ?>
         </div>
-
-    </div>
-</div>
