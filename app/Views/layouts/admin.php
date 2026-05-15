@@ -8,6 +8,10 @@
     <meta name="robots" content="noindex,nofollow">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/admin/css/admin.css">
+    <?php $faviconPath = setting('favicon_path');
+    if ($faviconPath !== '') : ?>
+        <link rel="icon" type="image/png" href="<?= e(BASE_URL . '/' . $faviconPath) ?>">
+    <?php endif; ?>
     <?= $adminExtraHead ?? '' ?>
 </head>
 
@@ -27,9 +31,21 @@
             $aria = $active ? ' aria-current="page"' : '';
             return "<a href=\"{$href}\" class=\"{$cls}\"{$aria}><i class=\"bi {$icon}\" aria-hidden=\"true\"></i> {$label}</a>";
         };
+        $isAdmin  = ($_SESSION['admin_role'] ?? 'member') === 'admin';
         ?>
         <aside class="admin-sidebar" id="admin-sidebar" aria-label="Admin navigation">
-            <div class="admin-sidebar-brand" aria-hidden="true">Wanda <span>Admin</span></div>
+            <div class="admin-sidebar-brand">
+                <?php $sidebarLogo = setting('logo_path');
+                if ($sidebarLogo !== '') : ?>
+                    <a href="<?= BASE_URL ?>/admin" style="display:block;padding:.25rem 0">
+                        <img src="<?= e(BASE_URL . '/' . $sidebarLogo) ?>"
+                            alt="Logo"
+                            style="max-height:40px;max-width:160px;object-fit:contain;display:block">
+                    </a>
+                <?php else : ?>
+                    <span aria-hidden="true">Wanda <span>Admin</span></span>
+                <?php endif; ?>
+            </div>
             <nav class="admin-sidebar-nav" aria-label="Main menu">
                 <div class="admin-nav-section-title" aria-hidden="true">Overview</div>
                 <?= $navLink(BASE_URL . '/admin',            'Dashboard',    'bi-speedometer2',         (bool)preg_match('#/admin/?$#', $reqUri)) ?>
@@ -40,8 +56,13 @@
                 <?= $navLink(BASE_URL . '/admin/testimonials', 'Testimonials', 'bi-chat-quote',           $isActive('/admin/testimonials')) ?>
                 <?= $navLink(BASE_URL . '/admin/gallery',      'Home Gallery', 'bi-grid',                 $isActive('/admin/gallery')) ?>
                 <?= $navLink(BASE_URL . '/admin/reports',      'Reports',      'bi-file-earmark-text',    $isActive('/admin/reports')) ?>
-                <div class="admin-nav-section-title" aria-hidden="true">Site</div>
-                <?= $navLink(BASE_URL . '/admin/settings',     'Settings',     'bi-gear',                 $isActive('/admin/settings')) ?>
+                <div class="admin-nav-section-title" aria-hidden="true">Account</div>
+                <?= $navLink(BASE_URL . '/admin/profile',      'My Profile',   'bi-person-circle',        $isActive('/admin/profile')) ?>
+                <?php if ($isAdmin) : ?>
+                    <div class="admin-nav-section-title" aria-hidden="true">Admin</div>
+                    <?= $navLink(BASE_URL . '/admin/users',        'Users',        'bi-people-fill',          $isActive('/admin/users')) ?>
+                    <?= $navLink(BASE_URL . '/admin/settings',     'Settings',     'bi-gear',                 $isActive('/admin/settings')) ?>
+                <?php endif; ?>
                 <a href="<?= BASE_URL ?>/" target="_blank" rel="noopener" class="admin-nav-link" aria-label="View website (opens in new tab)">
                     <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i> View Website
                 </a>

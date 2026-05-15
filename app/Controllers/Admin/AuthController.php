@@ -32,7 +32,7 @@ class AuthController extends BaseController
         }
 
         $db   = \Database::getInstance();
-        $stmt = $db->prepare('SELECT id, password_hash FROM admins WHERE username = ? LIMIT 1');
+        $stmt = $db->prepare('SELECT id, role, password_hash FROM admins WHERE username = ? LIMIT 1');
         $stmt->execute([$username]);
         $row = $stmt->fetch();
 
@@ -40,6 +40,7 @@ class AuthController extends BaseController
             session_regenerate_id(true);
             $_SESSION['admin_id']       = $row['id'];
             $_SESSION['admin_username'] = $username;
+            $_SESSION['admin_role']     = $row['role'];
             $this->redirect(BASE_URL . '/admin');
         }
 

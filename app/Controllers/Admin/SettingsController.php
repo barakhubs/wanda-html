@@ -6,6 +6,12 @@ use App\Models\SiteSettings;
 
 class SettingsController extends AdminBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->requireAdminRole();
+    }
+
     public function index(): void
     {
         SiteSettings::ensureTable(\Database::getInstance());
@@ -55,12 +61,18 @@ class SettingsController extends AdminBaseController
             $data['smtp_password'] = $smtpPw;
         }
 
-        foreach (['logo' => 'logo_path', 'footer_logo' => 'footer_logo_path'] as $field => $key) {
+        foreach (['logo' => 'logo_path', 'footer_logo' => 'footer_logo_path', 'favicon' => 'favicon_path'] as $field => $key) {
             if (!empty($_FILES[$field]['name'])) {
                 try {
                     $data[$key] = handleUpload($_FILES[$field], 'logos');
                 } catch (\RuntimeException $e) {
-                    $errors[] = ($field === 'logo' ? 'Header Logo' : 'Footer Logo') . ': ' . $e->getMessage();
+                    $label = match ($field) {
+                        'logo'         => 'Header Logo',
+                        'footer_logo'  => 'Footer Logo',
+                        'favicon'      => 'Favicon',
+                        default        => $field,
+                    };
+                    $errors[] = $label . ': ' . $e->getMessage();
                 }
             }
         }

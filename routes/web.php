@@ -20,9 +20,11 @@ use App\Controllers\Admin\DashboardController;
 use App\Controllers\Admin\GalleryController;
 use App\Controllers\Admin\PortfolioController as AdminPortfolioController;
 use App\Controllers\Admin\ReportController   as AdminReportController;
+use App\Controllers\Admin\ProfileController;
 use App\Controllers\Admin\SettingsController;
 use App\Controllers\Admin\TeamController      as AdminTeamController;
 use App\Controllers\Admin\TestimonialController;
+use App\Controllers\Admin\UsersController;
 
 // ── Public routes ─────────────────────────────────────────────────────────────
 $router->get('/',            [HomeController::class,      'index']);
@@ -79,6 +81,20 @@ $router->get('/admin/gallery',               [GalleryController::class, 'index']
 $router->get('/admin/gallery/create',        [GalleryController::class, 'create']);
 $router->post('/admin/gallery/create',       [GalleryController::class, 'store']);
 $router->post('/admin/gallery/delete/{id}',  [GalleryController::class, 'destroy']);
+
+// Profile
+$router->get('/admin/profile',           [ProfileController::class, 'index']);
+$router->post('/admin/profile',          [ProfileController::class, 'update']);
+$router->post('/admin/profile/password', [ProfileController::class, 'password']);
+$router->post('/admin/profile/username', [ProfileController::class, 'username']);
+
+// Users (admin role only — enforced inside controller)
+$router->get('/admin/users',               [UsersController::class, 'index']);
+$router->get('/admin/users/create',        [UsersController::class, 'create']);
+$router->post('/admin/users/create',       [UsersController::class, 'store']);
+$router->get('/admin/users/edit/{id}',     [UsersController::class, 'edit']);
+$router->post('/admin/users/edit/{id}',    [UsersController::class, 'update']);
+$router->post('/admin/users/delete/{id}',  [UsersController::class, 'destroy']);
 
 // Settings
 $router->get('/admin/settings',  [SettingsController::class, 'index']);

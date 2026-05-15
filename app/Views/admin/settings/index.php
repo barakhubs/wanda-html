@@ -136,6 +136,22 @@
                             <span class="form-hint">Light / white version for the dark footer background. Max 5 MB.</span>
                         </div>
                     </div>
+                    <div class="form-row col-2">
+                        <div class="form-group">
+                            <label for="favicon">Favicon</label>
+                            <?php if (!empty($s['favicon_path'])) : ?>
+                                <div style="margin-bottom:.6rem;display:flex;align-items:center;gap:.75rem">
+                                    <img src="<?= e(BASE_URL . '/' . $s['favicon_path']) ?>"
+                                        alt="Current favicon"
+                                        style="width:32px;height:32px;object-fit:contain;border:1px solid var(--admin-border);border-radius:4px;padding:2px;background:#fff">
+                                    <span class="form-hint" style="margin:0">Current favicon</span>
+                                </div>
+                            <?php endif; ?>
+                            <input type="file" id="favicon" name="favicon"
+                                accept="image/png,image/x-icon,image/vnd.microsoft.icon,image/webp">
+                            <span class="form-hint">PNG recommended — 32×32 px or 64×64 px. Used as the browser tab icon. Max 5 MB.</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 

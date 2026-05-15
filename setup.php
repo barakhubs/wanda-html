@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Passwords do not match.';
     } else {
         $hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
-        $stmt = $db->prepare('INSERT INTO admins (username, password_hash) VALUES (?, ?)');
+        $stmt = $db->prepare("INSERT INTO admins (username, password_hash, role) VALUES (?, ?, 'admin')");
         $stmt->execute([$username, $hash]);
         $success = true;
     }

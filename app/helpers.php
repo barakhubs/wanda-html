@@ -211,7 +211,7 @@ function handleUpload(array $file, string $subfolder): string
     }
 
     // Allowlist subfolder names to prevent path traversal
-    $allowed = ['blog', 'portfolio', 'team', 'gallery', 'logos', 'reports'];
+    $allowed = ['blog', 'portfolio', 'team', 'gallery', 'logos', 'reports', 'profile'];
     if (!in_array($subfolder, $allowed, true)) {
         throw new \RuntimeException('Invalid upload subfolder.');
     }
